@@ -7,13 +7,52 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		053EA57E181848B495332430 /* JavaScriptCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BD5611B4013491C99C021E0 /* JavaScriptCore.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		510C571DD2FD46339963A400 /* Rollout.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AEB8AE18A89C4A1283D1148E /* Rollout.framework */; };
+		E417E0181C37562A004B6E15 /* NotificationsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E417E0171C37562A004B6E15 /* NotificationsTableViewController.swift */; };
+		E417E01A1C375741004B6E15 /* NotificationTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E417E0191C375741004B6E15 /* NotificationTableViewCell.swift */; };
+		E41E9E1C1C25025100328247 /* HomePageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E41E9E1B1C25025100328247 /* HomePageViewController.swift */; };
+		E41E9E1E1C25027C00328247 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E41E9E1D1C25027C00328247 /* SignUpViewController.swift */; };
+		E43B22391C63115800C0025E /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E43B22381C63115800C0025E /* StoreKit.framework */; };
+		E43B22411C68225200C0025E /* NewPollTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E43B22401C68225200C0025E /* NewPollTableViewController.swift */; };
+		E43B22431C7046FB00C0025E /* GroupTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E43B22421C7046FB00C0025E /* GroupTableViewCell.swift */; };
+		E43B22451C70479600C0025E /* GroupsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E43B22441C70479600C0025E /* GroupsViewController.swift */; };
 		E4554C721C077E3A00CC54E5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4554C711C077E3A00CC54E5 /* AppDelegate.swift */; };
-		E4554C741C077E3A00CC54E5 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4554C731C077E3A00CC54E5 /* ViewController.swift */; };
 		E4554C771C077E3A00CC54E5 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E4554C751C077E3A00CC54E5 /* Main.storyboard */; };
 		E4554C791C077E3A00CC54E5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E4554C781C077E3A00CC54E5 /* Assets.xcassets */; };
 		E4554C7C1C077E3A00CC54E5 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E4554C7A1C077E3A00CC54E5 /* LaunchScreen.storyboard */; };
 		E4554C871C077E3A00CC54E5 /* debate_comTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4554C861C077E3A00CC54E5 /* debate_comTests.swift */; };
 		E4554C921C077E3A00CC54E5 /* debate_comUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4554C911C077E3A00CC54E5 /* debate_comUITests.swift */; };
+		E4554CA51C07931000CC54E5 /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E4554CA41C07931000CC54E5 /* Bolts.framework */; };
+		E4554CA71C07931600CC54E5 /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E4554CA61C07931600CC54E5 /* Parse.framework */; };
+		E4554CA91C0794C600CC54E5 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E4554CA81C0794C600CC54E5 /* AudioToolbox.framework */; };
+		E4554CAB1C0794CC00CC54E5 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E4554CAA1C0794CC00CC54E5 /* CFNetwork.framework */; };
+		E4554CAD1C0794D500CC54E5 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E4554CAC1C0794D500CC54E5 /* CoreGraphics.framework */; };
+		E4554CAF1C0794DE00CC54E5 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E4554CAE1C0794DE00CC54E5 /* CoreLocation.framework */; };
+		E4554CB11C0794E700CC54E5 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E4554CB01C0794E700CC54E5 /* QuartzCore.framework */; };
+		E4554CB31C0794ED00CC54E5 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E4554CB21C0794ED00CC54E5 /* Security.framework */; };
+		E4554CB71C07950100CC54E5 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E4554CB61C07950100CC54E5 /* SystemConfiguration.framework */; };
+		E4554CB91C07951100CC54E5 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = E4554CB81C07951100CC54E5 /* libz.tbd */; };
+		E4554CBB1C07951D00CC54E5 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = E4554CBA1C07951D00CC54E5 /* libsqlite3.tbd */; };
+		E4554CBD1C0797F000CC54E5 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4554CBC1C0797F000CC54E5 /* LoginViewController.swift */; };
+		E4554CC61C08F1DC00CC54E5 /* SWRevealViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E4554CC51C08F1DC00CC54E5 /* SWRevealViewController.m */; };
+		E4554CC81C08F2E600CC54E5 /* MenuController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4554CC71C08F2E600CC54E5 /* MenuController.swift */; };
+		E4554CCA1C08F33C00CC54E5 /* DebatesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4554CC91C08F33C00CC54E5 /* DebatesViewController.swift */; };
+		E4554CCC1C0A0B0800CC54E5 /* NewDebateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4554CCB1C0A0B0800CC54E5 /* NewDebateViewController.swift */; };
+		E4554CCE1C0A0B1700CC54E5 /* ResearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4554CCD1C0A0B1700CC54E5 /* ResearchViewController.swift */; };
+		E4554CD01C0AAA5B00CC54E5 /* DebateCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4554CCF1C0AAA5B00CC54E5 /* DebateCollectionViewCell.swift */; };
+		E4554CD21C0AACB400CC54E5 /* Debate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4554CD11C0AACB400CC54E5 /* Debate.swift */; };
+		E4554CD41C0AD99B00CC54E5 /* DebateClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4554CD31C0AD99B00CC54E5 /* DebateClient.swift */; };
+		E4554CD81C14A0ED00CC54E5 /* DebateManagerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4554CD71C14A0ED00CC54E5 /* DebateManagerViewController.swift */; };
+		E4554CDA1C14CB6400CC54E5 /* DebateManagerTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4554CD91C14CB6400CC54E5 /* DebateManagerTableViewCell.swift */; };
+		E4554CDC1C1A715800CC54E5 /* AddArgumentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4554CDB1C1A715800CC54E5 /* AddArgumentViewController.swift */; };
+		E48A8D651C61B57000F11257 /* PeopleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E48A8D641C61B57000F11257 /* PeopleViewController.swift */; };
+		E48A8D671C61BB2B00F11257 /* PersonTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E48A8D661C61BB2B00F11257 /* PersonTableViewCell.swift */; };
+		E4B7324D1C40DD5D00FFA1C0 /* VoteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4B7324C1C40DD5D00FFA1C0 /* VoteViewController.swift */; };
+		E4B7324F1C448D4800FFA1C0 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4B7324E1C448D4800FFA1C0 /* ProfileViewController.swift */; };
+		E4E20BDB1C5882F800A52F50 /* UIBarButtonItem+Badge.m in Sources */ = {isa = PBXBuildFile; fileRef = E4E20BDA1C5882F800A52F50 /* UIBarButtonItem+Badge.m */; };
+		E4E20BDD1C59B66C00A52F50 /* MIBadgeButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4E20BDC1C59B66C00A52F50 /* MIBadgeButton.swift */; };
+		E4E211341C8C9F17000294F4 /* ChooseSideViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4E211331C8C9F17000294F4 /* ChooseSideViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -34,9 +73,18 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		6BD5611B4013491C99C021E0 /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
+		AEB8AE18A89C4A1283D1148E /* Rollout.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Rollout.framework; path = "Rollout-ios-SDK/Rollout/Rollout.framework"; sourceTree = "<group>"; };
+		E417E0171C37562A004B6E15 /* NotificationsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationsTableViewController.swift; sourceTree = "<group>"; };
+		E417E0191C375741004B6E15 /* NotificationTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationTableViewCell.swift; sourceTree = "<group>"; };
+		E41E9E1B1C25025100328247 /* HomePageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomePageViewController.swift; sourceTree = "<group>"; };
+		E41E9E1D1C25027C00328247 /* SignUpViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
+		E43B22381C63115800C0025E /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
+		E43B22401C68225200C0025E /* NewPollTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewPollTableViewController.swift; sourceTree = "<group>"; };
+		E43B22421C7046FB00C0025E /* GroupTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupTableViewCell.swift; sourceTree = "<group>"; };
+		E43B22441C70479600C0025E /* GroupsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupsViewController.swift; sourceTree = "<group>"; };
 		E4554C6E1C077E3A00CC54E5 /* debate.com.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = debate.com.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E4554C711C077E3A00CC54E5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		E4554C731C077E3A00CC54E5 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		E4554C761C077E3A00CC54E5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		E4554C781C077E3A00CC54E5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E4554C7B1C077E3A00CC54E5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -47,6 +95,39 @@
 		E4554C8D1C077E3A00CC54E5 /* debate.comUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = debate.comUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		E4554C911C077E3A00CC54E5 /* debate_comUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = debate_comUITests.swift; sourceTree = "<group>"; };
 		E4554C931C077E3A00CC54E5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E4554CA41C07931000CC54E5 /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Bolts.framework; sourceTree = "<group>"; };
+		E4554CA61C07931600CC54E5 /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Parse.framework; sourceTree = "<group>"; };
+		E4554CA81C0794C600CC54E5 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
+		E4554CAA1C0794CC00CC54E5 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
+		E4554CAC1C0794D500CC54E5 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		E4554CAE1C0794DE00CC54E5 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		E4554CB01C0794E700CC54E5 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		E4554CB21C0794ED00CC54E5 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		E4554CB61C07950100CC54E5 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		E4554CB81C07951100CC54E5 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
+		E4554CBA1C07951D00CC54E5 /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
+		E4554CBC1C0797F000CC54E5 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LoginViewController.swift; path = ../LoginViewController.swift; sourceTree = "<group>"; };
+		E4554CC31C08F1D500CC54E5 /* SWRevealViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SWRevealViewController.h; path = SWRevealViewController/SWRevealViewController.h; sourceTree = "<group>"; };
+		E4554CC41C08F1DB00CC54E5 /* debate.com-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "debate.com-Bridging-Header.h"; sourceTree = SOURCE_ROOT; };
+		E4554CC51C08F1DC00CC54E5 /* SWRevealViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SWRevealViewController.m; path = SWRevealViewController/SWRevealViewController.m; sourceTree = "<group>"; };
+		E4554CC71C08F2E600CC54E5 /* MenuController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuController.swift; sourceTree = "<group>"; };
+		E4554CC91C08F33C00CC54E5 /* DebatesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DebatesViewController.swift; sourceTree = "<group>"; };
+		E4554CCB1C0A0B0800CC54E5 /* NewDebateViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewDebateViewController.swift; sourceTree = "<group>"; };
+		E4554CCD1C0A0B1700CC54E5 /* ResearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResearchViewController.swift; sourceTree = "<group>"; };
+		E4554CCF1C0AAA5B00CC54E5 /* DebateCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DebateCollectionViewCell.swift; sourceTree = "<group>"; };
+		E4554CD11C0AACB400CC54E5 /* Debate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Debate.swift; sourceTree = "<group>"; };
+		E4554CD31C0AD99B00CC54E5 /* DebateClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DebateClient.swift; sourceTree = "<group>"; };
+		E4554CD71C14A0ED00CC54E5 /* DebateManagerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DebateManagerViewController.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
+		E4554CD91C14CB6400CC54E5 /* DebateManagerTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DebateManagerTableViewCell.swift; sourceTree = "<group>"; };
+		E4554CDB1C1A715800CC54E5 /* AddArgumentViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddArgumentViewController.swift; sourceTree = "<group>"; };
+		E48A8D641C61B57000F11257 /* PeopleViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PeopleViewController.swift; sourceTree = "<group>"; };
+		E48A8D661C61BB2B00F11257 /* PersonTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonTableViewCell.swift; sourceTree = "<group>"; };
+		E4B7324C1C40DD5D00FFA1C0 /* VoteViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VoteViewController.swift; sourceTree = "<group>"; };
+		E4B7324E1C448D4800FFA1C0 /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
+		E4E20BD91C5882E800A52F50 /* UIBarButtonItem+Badge.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIBarButtonItem+Badge.h"; sourceTree = "<group>"; };
+		E4E20BDA1C5882F800A52F50 /* UIBarButtonItem+Badge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIBarButtonItem+Badge.m"; sourceTree = "<group>"; };
+		E4E20BDC1C59B66C00A52F50 /* MIBadgeButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MIBadgeButton.swift; sourceTree = "<group>"; };
+		E4E211331C8C9F17000294F4 /* ChooseSideViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChooseSideViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -54,6 +135,20 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E4554CBB1C07951D00CC54E5 /* libsqlite3.tbd in Frameworks */,
+				E4554CB91C07951100CC54E5 /* libz.tbd in Frameworks */,
+				E4554CB71C07950100CC54E5 /* SystemConfiguration.framework in Frameworks */,
+				E43B22391C63115800C0025E /* StoreKit.framework in Frameworks */,
+				E4554CB31C0794ED00CC54E5 /* Security.framework in Frameworks */,
+				E4554CB11C0794E700CC54E5 /* QuartzCore.framework in Frameworks */,
+				E4554CAF1C0794DE00CC54E5 /* CoreLocation.framework in Frameworks */,
+				E4554CAD1C0794D500CC54E5 /* CoreGraphics.framework in Frameworks */,
+				E4554CAB1C0794CC00CC54E5 /* CFNetwork.framework in Frameworks */,
+				E4554CA91C0794C600CC54E5 /* AudioToolbox.framework in Frameworks */,
+				E4554CA71C07931600CC54E5 /* Parse.framework in Frameworks */,
+				E4554CA51C07931000CC54E5 /* Bolts.framework in Frameworks */,
+				510C571DD2FD46339963A400 /* Rollout.framework in Frameworks */,
+				053EA57E181848B495332430 /* JavaScriptCore.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -74,13 +169,42 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		113EA78951B14FF98C8189E8 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				6BD5611B4013491C99C021E0 /* JavaScriptCore.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		56986E3814704F3DA9AE22CD /* Rollout */ = {
+			isa = PBXGroup;
+			children = (
+				AEB8AE18A89C4A1283D1148E /* Rollout.framework */,
+			);
+			name = Rollout;
+			sourceTree = "<group>";
+		};
 		E4554C651C077E3A00CC54E5 = {
 			isa = PBXGroup;
 			children = (
+				E43B22381C63115800C0025E /* StoreKit.framework */,
+				E4554CC21C08F19500CC54E5 /* SWRevealViewController */,
+				E4554CBA1C07951D00CC54E5 /* libsqlite3.tbd */,
+				E4554CB81C07951100CC54E5 /* libz.tbd */,
+				E4554CB61C07950100CC54E5 /* SystemConfiguration.framework */,
+				E4554CB21C0794ED00CC54E5 /* Security.framework */,
+				E4554CB01C0794E700CC54E5 /* QuartzCore.framework */,
+				E4554CAE1C0794DE00CC54E5 /* CoreLocation.framework */,
+				E4554CAC1C0794D500CC54E5 /* CoreGraphics.framework */,
+				E4554CAA1C0794CC00CC54E5 /* CFNetwork.framework */,
+				E4554CA81C0794C600CC54E5 /* AudioToolbox.framework */,
 				E4554C701C077E3A00CC54E5 /* debate.com */,
 				E4554C851C077E3A00CC54E5 /* debate.comTests */,
 				E4554C901C077E3A00CC54E5 /* debate.comUITests */,
 				E4554C6F1C077E3A00CC54E5 /* Products */,
+				56986E3814704F3DA9AE22CD /* Rollout */,
+				113EA78951B14FF98C8189E8 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -97,9 +221,37 @@
 		E4554C701C077E3A00CC54E5 /* debate.com */ = {
 			isa = PBXGroup;
 			children = (
+				E4554CC41C08F1DB00CC54E5 /* debate.com-Bridging-Header.h */,
+				E4554CA61C07931600CC54E5 /* Parse.framework */,
+				E4554CA41C07931000CC54E5 /* Bolts.framework */,
 				E4554C711C077E3A00CC54E5 /* AppDelegate.swift */,
-				E4554C731C077E3A00CC54E5 /* ViewController.swift */,
+				E4554CD31C0AD99B00CC54E5 /* DebateClient.swift */,
+				E41E9E1D1C25027C00328247 /* SignUpViewController.swift */,
+				E4554CBC1C0797F000CC54E5 /* LoginViewController.swift */,
 				E4554C751C077E3A00CC54E5 /* Main.storyboard */,
+				E4E211331C8C9F17000294F4 /* ChooseSideViewController.swift */,
+				E48A8D641C61B57000F11257 /* PeopleViewController.swift */,
+				E43B22441C70479600C0025E /* GroupsViewController.swift */,
+				E43B22421C7046FB00C0025E /* GroupTableViewCell.swift */,
+				E43B22401C68225200C0025E /* NewPollTableViewController.swift */,
+				E48A8D661C61BB2B00F11257 /* PersonTableViewCell.swift */,
+				E4B7324E1C448D4800FFA1C0 /* ProfileViewController.swift */,
+				E41E9E1B1C25025100328247 /* HomePageViewController.swift */,
+				E4554CCF1C0AAA5B00CC54E5 /* DebateCollectionViewCell.swift */,
+				E4554CC71C08F2E600CC54E5 /* MenuController.swift */,
+				E4554CC91C08F33C00CC54E5 /* DebatesViewController.swift */,
+				E4554CD71C14A0ED00CC54E5 /* DebateManagerViewController.swift */,
+				E4554CD91C14CB6400CC54E5 /* DebateManagerTableViewCell.swift */,
+				E4554CCB1C0A0B0800CC54E5 /* NewDebateViewController.swift */,
+				E4554CCD1C0A0B1700CC54E5 /* ResearchViewController.swift */,
+				E417E0171C37562A004B6E15 /* NotificationsTableViewController.swift */,
+				E417E0191C375741004B6E15 /* NotificationTableViewCell.swift */,
+				E4554CDB1C1A715800CC54E5 /* AddArgumentViewController.swift */,
+				E4B7324C1C40DD5D00FFA1C0 /* VoteViewController.swift */,
+				E4554CD11C0AACB400CC54E5 /* Debate.swift */,
+				E4E20BDC1C59B66C00A52F50 /* MIBadgeButton.swift */,
+				E4E20BD91C5882E800A52F50 /* UIBarButtonItem+Badge.h */,
+				E4E20BDA1C5882F800A52F50 /* UIBarButtonItem+Badge.m */,
 				E4554C781C077E3A00CC54E5 /* Assets.xcassets */,
 				E4554C7A1C077E3A00CC54E5 /* LaunchScreen.storyboard */,
 				E4554C7D1C077E3A00CC54E5 /* Info.plist */,
@@ -125,6 +277,15 @@
 			path = debate.comUITests;
 			sourceTree = "<group>";
 		};
+		E4554CC21C08F19500CC54E5 /* SWRevealViewController */ = {
+			isa = PBXGroup;
+			children = (
+				E4554CC31C08F1D500CC54E5 /* SWRevealViewController.h */,
+				E4554CC51C08F1DC00CC54E5 /* SWRevealViewController.m */,
+			);
+			name = SWRevealViewController;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -135,6 +296,7 @@
 				E4554C6A1C077E3A00CC54E5 /* Sources */,
 				E4554C6B1C077E3A00CC54E5 /* Frameworks */,
 				E4554C6C1C077E3A00CC54E5 /* Resources */,
+				96A1D47E7DC245ED9D6AC3CE /* Rollout.io dsym upload */,
 			);
 			buildRules = (
 			);
@@ -193,6 +355,15 @@
 				TargetAttributes = {
 					E4554C6D1C077E3A00CC54E5 = {
 						CreatedOnToolsVersion = 7.1;
+						DevelopmentTeam = W6S3G2Q5D5;
+						SystemCapabilities = {
+							com.apple.InAppPurchase = {
+								enabled = 1;
+							};
+							com.apple.Push = {
+								enabled = 1;
+							};
+						};
 					};
 					E4554C811C077E3A00CC54E5 = {
 						CreatedOnToolsVersion = 7.1;
@@ -251,13 +422,55 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		96A1D47E7DC245ED9D6AC3CE /* Rollout.io dsym upload */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Rollout.io dsym upload";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "ROLLOUT_lastXcodeprojConfiguration=5 \"${SRCROOT}/Rollout-ios-SDK/lib/upload_dsym_phase\" -k 56bbf366cc626037300599b8";
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		E4554C6A1C077E3A00CC54E5 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E4554C741C077E3A00CC54E5 /* ViewController.swift in Sources */,
+				E4554CDA1C14CB6400CC54E5 /* DebateManagerTableViewCell.swift in Sources */,
+				E4554CC81C08F2E600CC54E5 /* MenuController.swift in Sources */,
+				E417E0181C37562A004B6E15 /* NotificationsTableViewController.swift in Sources */,
+				E48A8D651C61B57000F11257 /* PeopleViewController.swift in Sources */,
+				E4554CBD1C0797F000CC54E5 /* LoginViewController.swift in Sources */,
+				E48A8D671C61BB2B00F11257 /* PersonTableViewCell.swift in Sources */,
+				E4554CCE1C0A0B1700CC54E5 /* ResearchViewController.swift in Sources */,
+				E4554CD41C0AD99B00CC54E5 /* DebateClient.swift in Sources */,
+				E4B7324D1C40DD5D00FFA1C0 /* VoteViewController.swift in Sources */,
+				E4554CD81C14A0ED00CC54E5 /* DebateManagerViewController.swift in Sources */,
+				E417E01A1C375741004B6E15 /* NotificationTableViewCell.swift in Sources */,
+				E4B7324F1C448D4800FFA1C0 /* ProfileViewController.swift in Sources */,
+				E4E20BDD1C59B66C00A52F50 /* MIBadgeButton.swift in Sources */,
+				E4554CCC1C0A0B0800CC54E5 /* NewDebateViewController.swift in Sources */,
+				E4554CD21C0AACB400CC54E5 /* Debate.swift in Sources */,
+				E4E211341C8C9F17000294F4 /* ChooseSideViewController.swift in Sources */,
+				E41E9E1C1C25025100328247 /* HomePageViewController.swift in Sources */,
+				E41E9E1E1C25027C00328247 /* SignUpViewController.swift in Sources */,
+				E4E20BDB1C5882F800A52F50 /* UIBarButtonItem+Badge.m in Sources */,
+				E43B22451C70479600C0025E /* GroupsViewController.swift in Sources */,
+				E4554CDC1C1A715800CC54E5 /* AddArgumentViewController.swift in Sources */,
+				E4554CCA1C08F33C00CC54E5 /* DebatesViewController.swift in Sources */,
+				E4554CD01C0AAA5B00CC54E5 /* DebateCollectionViewCell.swift in Sources */,
 				E4554C721C077E3A00CC54E5 /* AppDelegate.swift in Sources */,
+				E43B22411C68225200C0025E /* NewPollTableViewController.swift in Sources */,
+				E4554CC61C08F1DC00CC54E5 /* SWRevealViewController.m in Sources */,
+				E43B22431C7046FB00C0025E /* GroupTableViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -329,7 +542,8 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Dhruv Mangtani (W6S3G2Q5D5)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Dhruv Mangtani (W6S3G2Q5D5)";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -351,6 +565,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
+				PROVISIONING_PROFILE = "5e9d7a88-513e-441c-a308-54d7c54a92ed";
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -374,7 +589,8 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Dhruv Mangtani (W6S3G2Q5D5)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Dhruv Mangtani (W6S3G2Q5D5)";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
@@ -389,6 +605,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
 				MTL_ENABLE_DEBUG_INFO = NO;
+				PROVISIONING_PROFILE = "5e9d7a88-513e-441c-a308-54d7c54a92ed";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
@@ -399,10 +616,22 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Dhruv Mangtani (W6S3G2Q5D5)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Dhruv Mangtani (W6S3G2Q5D5)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/debate.com",
+					"Rollout-ios-SDK/Rollout",
+				);
 				INFOPLIST_FILE = debate.com/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.dhruv.debate-com";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "5e9d7a88-513e-441c-a308-54d7c54a92ed";
+				SWIFT_OBJC_BRIDGING_HEADER = "debate.com-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
 		};
@@ -410,10 +639,21 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Dhruv Mangtani (W6S3G2Q5D5)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Dhruv Mangtani (W6S3G2Q5D5)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/debate.com",
+					"Rollout-ios-SDK/Rollout",
+				);
 				INFOPLIST_FILE = debate.com/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.dhruv.debate-com";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "5e9d7a88-513e-441c-a308-54d7c54a92ed";
+				SWIFT_OBJC_BRIDGING_HEADER = "debate.com-Bridging-Header.h";
 			};
 			name = Release;
 		};
@@ -421,6 +661,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"Rollout-ios-SDK/Rollout",
+				);
 				INFOPLIST_FILE = debate.comTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.dhruv.debate-comTests";
@@ -433,6 +677,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"Rollout-ios-SDK/Rollout",
+				);
 				INFOPLIST_FILE = debate.comTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.dhruv.debate-comTests";
@@ -444,6 +692,10 @@
 		E4554C9D1C077E3A00CC54E5 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"Rollout-ios-SDK/Rollout",
+				);
 				INFOPLIST_FILE = debate.comUITests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.dhruv.debate-comUITests";
@@ -456,6 +708,10 @@
 		E4554C9E1C077E3A00CC54E5 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"Rollout-ios-SDK/Rollout",
+				);
 				INFOPLIST_FILE = debate.comUITests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.dhruv.debate-comUITests";
@@ -484,6 +740,7 @@
 				E4554C981C077E3A00CC54E5 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		E4554C991C077E3A00CC54E5 /* Build configuration list for PBXNativeTarget "debate.comTests" */ = {
 			isa = XCConfigurationList;
@@ -492,6 +749,7 @@
 				E4554C9B1C077E3A00CC54E5 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		E4554C9C1C077E3A00CC54E5 /* Build configuration list for PBXNativeTarget "debate.comUITests" */ = {
 			isa = XCConfigurationList;
@@ -500,6 +758,7 @@
 				E4554C9E1C077E3A00CC54E5 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
