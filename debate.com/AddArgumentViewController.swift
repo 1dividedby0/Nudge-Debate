@@ -13,13 +13,15 @@ import Foundation
 
 var turnFinished = false
 
-class AddArgumentViewController: UIViewController{
-    
+class AddArgumentViewController: UIViewController, UITextViewDelegate{
+    let placeHolder = "Add your argument here. Press the microphone button in your keyboard if you wish to utilize the speech to text feature."
     @IBOutlet weak var argumentTextField: UITextView!
     var rawDebate: PFObject!
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        argumentTextField.delegate = self
+        argumentTextField.text = placeHolder
+        argumentTextField.textColor = UIColor.lightGray()
         // Do any additional setup after loading the view.
     }
     override func didReceiveMemoryWarning() {
@@ -27,32 +29,46 @@ class AddArgumentViewController: UIViewController{
         // Dispose of any resources that can be recreated.
     }
     
-    @IBAction func submitArgument(sender: AnyObject) {
-        if argumentTextField.text.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet()) == ""{
-            let alert = UIAlertController(title: "Empty Argument", message: "Are you trying to lose?", preferredStyle: UIAlertControllerStyle.Alert)
-            alert.addAction(UIAlertAction(title: "Fine", style: UIAlertActionStyle.Default, handler: nil))
-            self.presentViewController(alert, animated: true, completion: nil)
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        if argumentTextField.textColor == UIColor.lightGray(){
+            argumentTextField.text = ""
+            argumentTextField.textColor = UIColor.black()
+        }
+    }
+    
+    func textViewDidEndEditing(_ textView: UITextView) {
+        if textView.text.isEmpty {
+            textView.text = placeHolder
+            textView.textColor = UIColor.lightGray()
+        }
+    }
+    
+    @IBAction func submitArgument(_ sender: AnyObject) {
+        if argumentTextField.text.trimmingCharacters(in: CharacterSet.whitespaces) == ""{
+            let alert = UIAlertController(title: "Empty Argument", message: "Are you trying to lose?", preferredStyle: UIAlertControllerStyle.alert)
+            alert.addAction(UIAlertAction(title: "Fine", style: UIAlertActionStyle.default, handler: nil))
+            self.present(alert, animated: true, completion: nil)
             return
         }
-        DebateClient.postArgument(rawDebate.objectId!, argument: "\(PFUser.currentUser()!.username!):\(argumentTextField.text)")
+        DebateClient.postArgument(rawDebate.objectId!, argument: "\(PFUser.current()!.username!):\(argumentTextField.text)")
         let debate = DebateClient.convert(rawDebate)
         
-        let df = NSDateFormatter()
+        let df = DateFormatter()
         df.dateFormat = "MM-dd-yyyy HH:mm:ss"
-        debate.dateStarted = df.stringFromDate(NSDate())
+        debate.dateStarted = df.string(from: Date())
         rawDebate.setObject(debate.dateStarted, forKey: dateStartedKey)
-        rawDebate["Debate"] = NSKeyedArchiver.archivedDataWithRootObject(debate)
-        if connectedToNetwork(){
+        rawDebate["Debate"] = NSKeyedArchiver.archivedData(withRootObject: debate)
+        //if connectedToNetwork(){
             rawDebate.saveInBackground()
-        }else{
-            rawDebate.saveEventually()
-        }
+        //}else{
+        //    rawDebate.saveEventually()
+        //}
         turnFinished = true
-        DebateClient.sendPush("It is your turn!", username: (PFUser.currentUser()?.username! == debate.forArguer) ? debate.againstArguer:debate.forArguer)
-        self.navigationController?.dismissViewControllerAnimated(true, completion: nil)
+        DebateClient.sendPush("It is your turn!", username: (PFUser.current()?.username! == debate.forArguer) ? debate.againstArguer:debate.forArguer)
+        self.navigationController?.dismiss(animated: true, completion: nil)
     }
-    @IBAction func cancel(sender: AnyObject) {
-        self.navigationController?.dismissViewControllerAnimated(true, completion: nil)
+    @IBAction func cancel(_ sender: AnyObject) {
+        self.navigationController?.dismiss(animated: true, completion: nil)
     }
     func connectedToNetwork() -> Bool {
         
@@ -71,8 +87,8 @@ class AddArgumentViewController: UIViewController{
             return false
         }
         
-        let isReachable = flags.contains(.Reachable)
-        let needsConnection = flags.contains(.ConnectionRequired)
+        let isReachable = flags.contains(.reachable)
+        let needsConnection = flags.contains(.connectionRequired)
         return (isReachable && !needsConnection)
     }
     /*

@@ -13,10 +13,10 @@ class PeopleViewController: UIViewController, UITableViewDelegate, UITableViewDa
     @IBOutlet weak var menuButton: UIBarButtonItem!
     @IBOutlet weak var tableView: UITableView!
     var people: [PFUser]!
-    var timer: NSTimer!
-    override func viewDidAppear(animated: Bool) {
+    var timer: Timer!
+    override func viewDidAppear(_ animated: Bool) {
         let query = PFUser.query()
-        query?.findObjectsInBackgroundWithBlock({ (objects, error) -> Void in
+        query?.findObjectsInBackground({ (objects, error) -> Void in
             self.people = objects as! [PFUser]
         })
     }
@@ -31,28 +31,28 @@ class PeopleViewController: UIViewController, UITableViewDelegate, UITableViewDa
         }
         self.automaticallyAdjustsScrollViewInsets = false
         let query = PFUser.query()
-        query?.findObjectsInBackgroundWithBlock({ (objects, error) -> Void in
+        query?.findObjectsInBackground({ (objects, error) -> Void in
             self.people = objects as! [PFUser]
             self.tableView.reloadData()
         })
-        timer = NSTimer.scheduledTimerWithTimeInterval(13.5, target: self, selector: "reload", userInfo: nil, repeats: true)
+        timer = Timer.scheduledTimer(timeInterval: 13.5, target: self, selector: "reload", userInfo: nil, repeats: true)
         // Do any additional setup after loading the view.
     }
     func reload(){
         let query = PFUser.query()
-        query?.findObjectsInBackgroundWithBlock({ (objects, error) -> Void in
+        query?.findObjectsInBackground({ (objects, error) -> Void in
             self.people = objects as! [PFUser]
         })
     }
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if people != nil{
             return people.count
         }
         return 0
     }
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("personCell") as! PersonTableViewCell
-        cell.user = people[indexPath.row]
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "personCell") as! PersonTableViewCell
+        cell.user = people[(indexPath as NSIndexPath).row]
         cell.setUp()
         return cell
     }

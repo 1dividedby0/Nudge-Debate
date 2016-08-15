@@ -8,7 +8,9 @@
 
 import UIKit
 import Parse
-var currentUser = PFUser.currentUser()!
+//import ARSLineProgress
+
+var currentUser = PFUser.current()!
 var inviteTimeStampKey = "inviteTimeStamp"
 var dateStartedKey = "dateStarted"
 var minutesPerArgumentKey = "minutesPerArgumentKey"
@@ -20,65 +22,71 @@ var forArguerKey = "forArguer"
 var againstArguerKey = "againstArguer"
 var numOfNot = 0
 var refusedDebates: [String] = [String]()
-class DebatesViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate {
+class DebatesViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     var loading = true
     var selectedDebate: Debate!
     var selectedRawData: PFObject!
     var inDebate = false
-    let currentUsername = PFUser.currentUser()!.username!
-    var timer: NSTimer!
+    let currentUsername = PFUser.current()!.username!
+    var timer: Timer!
     var invitedDebates = [PFObject]()
     var blurEffectView: UIVisualEffectView!
     var menuButtonRep: UIBarButtonItem!
     var debateButton: UIButton!
     var pollButton: UIButton!
     var titleButton: UIButton!
-    @IBOutlet weak var collectionView: UICollectionView!
-    @IBOutlet weak var menuButton: UIBarButtonItem!
     
-    override func viewDidAppear(animated: Bool) {
+    @IBOutlet weak var menuButton: UIBarButtonItem!
+    @IBOutlet weak var tableView: UITableView!
+    
+    /*override func viewDidAppear(_ animated: Bool) {
         
         var debates = [Debate]()
         let privateQuery = PFQuery(className: "Private")
         let query = PFQuery(className: "Debates")
         var invites = [PFObject]()
-        privateQuery.findObjectsInBackgroundWithBlock { (data, error) -> Void in
+        /*privateQuery.findObjectsInBackground { (data, error) -> Void in
             if data != nil{
                 for i in data!{
-                    let data = i["Debate"] as! NSData
-                    let debate = NSKeyedUnarchiver.unarchiveObjectWithData(data) as! Debate
-                    if debate.againstArguer == "" && debate.forArguer == "" && debate.arguments.contains(PFUser.currentUser()!.username!){
+                    let data = i["Debate"] as! Data
+                    NSKeyedUnarchiver.setClass(Debate.self, forClassName: "debate_com.Debate")
+                    let debate = NSKeyedUnarchiver.unarchiveObject(with: data) as! Debate
+                    if debate.againstArguer == "" && debate.forArguer == "" && debate.arguments.contains(PFUser.current()!.username!){
                         debates.append(debate)
                     }
                 }
             }
-        }
-        query.findObjectsInBackgroundWithBlock { (data: [PFObject]?, error: NSError?) -> Void in
+        }*/
+        query.findObjectsInBackground { (data: [PFObject]?, error: NSError?) -> Void in
             if data != nil{
                 self.inDebate = false
                 numOfNot = 0
+                print("data is being received\(data)")
                 for i in data!{
-                    let data = i["Debate"] as! NSData
-                    let debate = NSKeyedUnarchiver.unarchiveObjectWithData(data) as! Debate
+                    let data = i["Debate"] as! Data
+                    NSKeyedUnarchiver.setClass(Debate.self, forClassName: "debate_com.Debate")
+                    let debate = NSKeyedUnarchiver.unarchiveObject(with: data) as! Debate
                     
                     debates.append(debate)
                     
                     if debate.forArguer != "" || debate.againstArguer != ""{
-                        let dateFormatter1 = NSDateFormatter()
+                        print(debate.forArguer)
+                        print("\(debate.againstArguer) dddd")
+                        let dateFormatter1 = DateFormatter()
                         dateFormatter1.dateFormat = "MM-dd-yyyy HH:mm:ss"
-                        let date1 = dateFormatter1.dateFromString(debate.inviteTimeStamp)
+                        let date1 = dateFormatter1.date(from: debate.inviteTimeStamp)
                         // get time elapsed
-                        var secondsSinceInvite = Int(NSDate().timeIntervalSinceDate(date1!))
+                        var secondsSinceInvite = Int(Date().timeIntervalSince(date1!))
                         // get the time left not elapsed
                         // give 8 minutes for user to respond
                         secondsSinceInvite = 480 - secondsSinceInvite
                         
                         // user has already accepted the debate
                         if debate.dateStarted != ""{
-                            let dateFormatter = NSDateFormatter()
+                            let dateFormatter = DateFormatter()
                             dateFormatter.dateFormat = "MM-dd-yyyy HH:mm:ss"
-                            let date = dateFormatter.dateFromString(debate.dateStarted)
-                            var currentSeconds = Int(NSDate().timeIntervalSinceDate(date!))
+                            let date = dateFormatter.date(from: debate.dateStarted)
+                            var currentSeconds = Int(Date().timeIntervalSince(date!))
                             currentSeconds = debate.minutesPerArgument*60 - currentSeconds
                             
                             if self.currentUsername == debate.defender || self.currentUsername == debate.challenger{
@@ -87,7 +95,7 @@ class DebatesViewController: UIViewController, UICollectionViewDataSource, UICol
                                 if currentSeconds < 0 && !debate.finished{
                                     debate.finished = true
                                     i.setObject(true, forKey: finishedKey)
-                                    i["Debate"] = NSKeyedArchiver.archivedDataWithRootObject(debate)
+                                    i["Debate"] = NSKeyedArchiver.archivedData(withRootObject: debate)
                                     i.saveInBackground()
                                 // else if the debate is actually not finished
                                 }else if currentSeconds > 0 && !debate.finished{
@@ -103,83 +111,91 @@ class DebatesViewController: UIViewController, UICollectionViewDataSource, UICol
                             debate.finished = true
                             i.setObject(true, forKey: finishedKey)
                             i.setObject("", forKey: defenderKey)
-                            i["Debate"] = NSKeyedArchiver.archivedDataWithRootObject(debate)
+                            i["Debate"] = NSKeyedArchiver.archivedData(withRootObject: debate)
                             i.saveInBackground()
                         }
                         
-                        if (debate.defender == "o+" || debate.defender == PFUser.currentUser()!.username!) && debate.challenger != PFUser.currentUser()!.username! && secondsSinceInvite > 5 && !refusedDebates.contains(debate.title){
+                        if (debate.defender == "o+" || debate.defender == PFUser.current()!.username!) && debate.challenger != PFUser.current()!.username! && secondsSinceInvite > 5 && !refusedDebates.contains(debate.title){
                             invites.append(i)
                         }
                     }
                 }
-            currentUser.setObject(self.inDebate, forKey: "inDebate")
-            currentUser.saveInBackgroundWithBlock({ (success: Bool, error: NSError?) -> Void in
-                currentUser.fetchInBackground()
-                rawDebates = data!.reverse()
-                debatesMain = debates.reverse()
+                rawDebates = data!.reversed()
+                debatesMain = debates.reversed()
+                
+                print("save is complete")
                 self.invitedDebates = invites
                 isLoading = true
-                self.collectionView.reloadData()
+                self.tableView.reloadData()
                 if self.timer != nil{
                     self.timer.invalidate()
                     self.timer = nil
                 }
-                self.timer = NSTimer.scheduledTimerWithTimeInterval(15, target: self, selector: "reload", userInfo: nil, repeats: true)
+                self.timer = Timer.scheduledTimer(timeInterval: 15, target: self, selector: #selector(self.reload), userInfo: nil, repeats: true)
+            currentUser.setObject(self.inDebate, forKey: "inDebate")
+            currentUser.saveInBackground({ (success: Bool, error: NSError?) -> Void in
+                currentUser.fetchInBackground()
+                
             })
             }else{
                 print(error?.localizedDescription)
             }
             //self.navigationItem.leftBarButtonItem?.badgeValue = "\(numOfNot)"
-            
             self.showInvitation()
         }
-    }
+    }*/
+    
     func create(){
-        if blurEffectView.hidden == false{
-            navigationItem.setRightBarButtonItem(nil, animated: true)
-            navigationItem.setLeftBarButtonItem(menuButtonRep, animated: true)
-            UIView.transitionWithView(blurEffectView, duration: 0.15, options: UIViewAnimationOptions.TransitionCrossDissolve, animations: nil, completion: nil)
-            blurEffectView.hidden = true
+        if blurEffectView.isHidden == false{
+            navigationItem.setRightBarButton(nil, animated: true)
+            navigationItem.setLeftBarButton(menuButtonRep, animated: true)
+            UIView.transition(with: blurEffectView, duration: 0.15, options: UIViewAnimationOptions.transitionCrossDissolve, animations: nil, completion: nil)
+            blurEffectView.isHidden = true
             debateButton.removeFromSuperview()
             pollButton.removeFromSuperview()
             return
         }
-        UIView.transitionWithView(blurEffectView, duration: 0.15, options: UIViewAnimationOptions.TransitionCrossDissolve, animations: nil, completion: nil)
-        blurEffectView.hidden = false
-        debateButton.setTitle("Debate", forState: UIControlState.Normal)
-        debateButton.addTarget(self, action: "createDebate", forControlEvents: UIControlEvents.TouchUpInside)
-        debateButton.userInteractionEnabled = true
+        UIView.transition(with: blurEffectView, duration: 0.15, options: UIViewAnimationOptions.transitionCrossDissolve, animations: nil, completion: nil)
+        blurEffectView.isHidden = false
+        debateButton.setTitle("Debate", for: UIControlState())
+        debateButton.addTarget(self, action: #selector(self.createDebate), for: UIControlEvents.touchUpInside)
+        debateButton.isUserInteractionEnabled = true
         view.addSubview(debateButton)
-        pollButton.setTitle("Poll", forState: UIControlState.Normal)
-        pollButton.addTarget(self, action: "createPoll", forControlEvents: UIControlEvents.TouchUpInside)
-        pollButton.userInteractionEnabled = true
+        pollButton.setTitle("Poll", for: UIControlState())
+        pollButton.addTarget(self, action: #selector(self.createPoll), for: UIControlEvents.touchUpInside)
+        pollButton.isUserInteractionEnabled = true
         view.addSubview(pollButton)
     }
     func createDebate(){
-        self.performSegueWithIdentifier("toCreate", sender: self)
+        self.performSegue(withIdentifier: "toCreate", sender: self)
     }
     func createPoll(){
-        self.performSegueWithIdentifier("newPoll", sender: self)
+        self.performSegue(withIdentifier: "newPoll", sender: self)
     }
     override func viewDidLoad() {
         super.viewDidLoad()
-        collectionView.delegate = self
-        collectionView.dataSource = self
+        tableView.delegate = self
+        tableView.dataSource = self
+        self.tableView.estimatedRowHeight = 80
+        self.tableView.rowHeight = UITableViewAutomaticDimension
+
+        self.tableView.setNeedsLayout()
+        self.tableView.layoutIfNeeded()
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
-        titleButton = UIButton(type: UIButtonType.RoundedRect)
-        titleButton.frame = CGRectMake(0, 0, 90, 36)
+        titleButton = UIButton(type: UIButtonType.roundedRect)
+        titleButton.frame = CGRect(x: 0, y: 0, width: 90, height: 36)
         titleButton.layer.cornerRadius = 6
-        titleButton.layer.borderColor = UIColor.orangeColor().CGColor
+        titleButton.layer.borderColor = UIColor.orange().cgColor
         titleButton.layer.borderWidth = 0.4
-        titleButton.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
-        titleButton.layer.backgroundColor = UIColor.orangeColor().CGColor
-        titleButton.setTitle("Create", forState: UIControlState.Normal)
-        titleButton.addTarget(self, action: "create", forControlEvents: .TouchUpInside)
+        titleButton.setTitleColor(UIColor.white(), for: UIControlState())
+        titleButton.layer.backgroundColor = UIColor.orange().cgColor
+        titleButton.setTitle("Create", for: UIControlState())
+        titleButton.addTarget(self, action: #selector(self.create), for: .touchUpInside)
         self.navigationItem.titleView? = titleButton
 
-        debateButton = UIButton(frame: CGRectMake(titleButton.center.x+50, 50, 65, 65))
-        pollButton = UIButton(frame: CGRectMake(view.frame.size.width/2+20, 50, 65, 65))
+        debateButton = UIButton(frame: CGRect(x: titleButton.center.x+50, y: 50, width: 65, height: 65))
+        pollButton = UIButton(frame: CGRect(x: view.frame.size.width/2+20, y: 50, width: 65, height: 65))
         
         if self.revealViewController() != nil {
             //self.navigationItem.leftBarButtonItem?.badgeValue = "\(numOfNot)"
@@ -189,58 +205,60 @@ class DebatesViewController: UIViewController, UICollectionViewDataSource, UICol
             self.view.addGestureRecognizer(self.revealViewController().panGestureRecognizer())
         }
         if !UIAccessibilityIsReduceTransparencyEnabled() {
-            self.view.backgroundColor = UIColor.clearColor()
-            let blurEffect = UIBlurEffect(style: UIBlurEffectStyle.Dark)
+            self.view.backgroundColor = UIColor.clear()
+            let blurEffect = UIBlurEffect(style: UIBlurEffectStyle.dark)
             blurEffectView = UIVisualEffectView(effect: blurEffect)
             //always fill the view
             blurEffectView.frame = self.view.bounds
-            blurEffectView.autoresizingMask = [.FlexibleWidth, .FlexibleHeight]
-            blurEffectView.hidden = true
+            blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+            blurEffectView.isHidden = true
             self.view.addSubview(blurEffectView) //if you have more UIViews, use an insertSubview API to place it where needed
         }
         else {
-            self.view.backgroundColor = UIColor.blackColor()
+            self.view.backgroundColor = UIColor.black()
         }
-        var debates = [Debate]()
-        let query = PFQuery(className: "Debates")
-        let privateQuery = PFQuery(className: "Private")
-        privateQuery.findObjectsInBackgroundWithBlock { (data, error) -> Void in
+        //var debates = [Debate]()
+        //let query = PFQuery(className: "Debates")
+        //let privateQuery = PFQuery(className: "Private")
+        /*privateQuery.findObjectsInBackground { (data, error) -> Void in
             if data != nil{
                 for i in data!{
                     let data = i["Debate"] as! NSData
-                    let debate = NSKeyedUnarchiver.unarchiveObjectWithData(data) as! Debate
-                    if debate.againstArguer == "" && debate.forArguer == "" && debate.arguments.contains(PFUser.currentUser()!.username!){
+                    NSKeyedUnarchiver.setClass(Debate.self, forClassName: "debate_com.Debate")
+                    let debate = NSKeyedUnarchiver.unarchiveObject(with: data as Data) as! Debate
+                    if debate.againstArguer == "" && debate.forArguer == "" && debate.arguments.contains(PFUser.current()!.username!){
                         debates.append(debate)
                     }
                 }
             }
         }
-
-        query.findObjectsInBackgroundWithBlock { (datas: [PFObject]?, error: NSError?) -> Void in
+         */
+        /*query.findObjectsInBackground { (datas: [PFObject]?, error: NSError?) -> Void in
             if datas != nil{
                 self.inDebate = false
                 for i in datas!{
                     let data = i["Debate"] as! NSData
-                    let debate = NSKeyedUnarchiver.unarchiveObjectWithData(data) as! Debate
+                    NSKeyedUnarchiver.setClass(Debate.self, forClassName: "debate_com.Debate")
+                    let debate = NSKeyedUnarchiver.unarchiveObject(with: data as Data) as! Debate
                     debates.append(debate)
                     
                     if debate.forArguer != "" || debate.againstArguer != ""{
                         
-                        let dateFormatter = NSDateFormatter()
+                        let dateFormatter = DateFormatter()
                         dateFormatter.dateFormat = "MM-dd-yyyy HH:mm:ss"
-                        let date = dateFormatter.dateFromString(debate.inviteTimeStamp)
+                        let date = dateFormatter.date(from: debate.inviteTimeStamp)
                         // get time elapsed
-                        var secondsSinceInvite = Int(NSDate().timeIntervalSinceDate(date!))
+                        var secondsSinceInvite = Int(NSDate().timeIntervalSince(date!))
                         // get the time left not elapsed
                         // give 8 minutes for user to respond
                         secondsSinceInvite = 480 - secondsSinceInvite
                         
                         // user has already accepted the debate
                         if debate.dateStarted != ""{
-                            let dateFormatter = NSDateFormatter()
+                            let dateFormatter = DateFormatter()
                             dateFormatter.dateFormat = "MM-dd-yyyy HH:mm:ss"
-                            let date = dateFormatter.dateFromString(debate.dateStarted)
-                            var currentSeconds = Int(NSDate().timeIntervalSinceDate(date!))
+                            let date = dateFormatter.date(from: debate.dateStarted)
+                            var currentSeconds = Int(NSDate().timeIntervalSince(date!))
                             currentSeconds = debate.minutesPerArgument*60 - currentSeconds
                             
                             if self.currentUsername == debate.defender || self.currentUsername == debate.challenger{
@@ -249,7 +267,7 @@ class DebatesViewController: UIViewController, UICollectionViewDataSource, UICol
                                 if currentSeconds < 0 && !debate.finished{
                                     i.setObject(true, forKey: finishedKey)
                                     debate.finished = true
-                                    i["Debate"] = NSKeyedArchiver.archivedDataWithRootObject(debate)
+                                    i["Debate"] = NSKeyedArchiver.archivedData(withRootObject: debate)
                                     i.saveInBackground()
                                     // else if the debate is actually not finished
                                 }else if currentSeconds > 0 && !debate.finished{
@@ -265,71 +283,76 @@ class DebatesViewController: UIViewController, UICollectionViewDataSource, UICol
                             debate.finished = true
                             i.setObject("", forKey: defenderKey)
                             i.setObject(true, forKey: finishedKey)
-                            i["Debate"] = NSKeyedArchiver.archivedDataWithRootObject(debate)
+                            i["Debate"] = NSKeyedArchiver.archivedData(withRootObject: debate)
                             i.saveInBackground()
                         }
                         
                 }
                 currentUser.setObject(self.inDebate, forKey: "inDebate")
-                currentUser.saveInBackgroundWithBlock({ (success: Bool, error: NSError?) -> Void in
+                currentUser.saveInBackground({ (success: Bool, error: NSError?) -> Void in
                     currentUser.fetchInBackground()
-                    rawDebates = datas!.reverse()
-                    debatesMain = debates.reverse()
+                    rawDebates = datas!.reversed()
+                    debatesMain = debates.reversed()
                     isLoading = true
-                    self.collectionView.reloadData()
-                    self.timer = NSTimer.scheduledTimerWithTimeInterval(10, target: self, selector: "reload", userInfo: nil, repeats: true)
+                    self.tableView.reloadData()
+                    self.timer = Timer.scheduledTimer(timeInterval: 10, target: self, selector: #selector(self.reload), userInfo: nil, repeats: true)
                 })
                 }
             }else{
                 print(error?.localizedDescription)
             }
             self.showInvitation()
-        }
+        }*/
+        //ARSLineProgress
+        self.reload()
+        self.timer = Timer.scheduledTimer(timeInterval: 10, target: self, selector: #selector(self.reload), userInfo: nil, repeats: true)
     }
     func reload(){
         var debates = [Debate]()
         var invites = [PFObject]()
         let query = PFQuery(className: "Debates")
         let privateQuery = PFQuery(className: "Private")
-        privateQuery.findObjectsInBackgroundWithBlock { (data, error) -> Void in
+        /*privateQuery.findObjectsInBackground { (data, error) -> Void in
             if data != nil{
                 for i in data!{
-                    let data = i["Debate"] as! NSData
-                    let debate = NSKeyedUnarchiver.unarchiveObjectWithData(data) as! Debate
-                    if debate.againstArguer == "" && debate.forArguer == "" && debate.arguments.contains(PFUser.currentUser()!.username!){
+                    let data = i["Debate"] as! Data
+                    NSKeyedUnarchiver.setClass(Debate.self, forClassName: "debate_com.Debate")
+                    let debate = NSKeyedUnarchiver.unarchiveObject(with: data) as! Debate
+                    if debate.againstArguer == "" && debate.forArguer == "" && debate.arguments.contains(PFUser.current()!.username!){
                         debates.append(debate)
                     }
                 }
             }
         }
-
-        query.findObjectsInBackgroundWithBlock { (data: [PFObject]?, error: NSError?) -> Void in
+         */
+        query.findObjectsInBackground { (data: [PFObject]?, error: NSError?) -> Void in
             if data != nil{
                 numOfNot = 0
                 self.inDebate = false
                 for i in data!{
                     
-                    let data = i["Debate"] as! NSData
-                    let debate = NSKeyedUnarchiver.unarchiveObjectWithData(data) as! Debate
+                    let data = i["Debate"] as! Data
+                    NSKeyedUnarchiver.setClass(Debate.self, forClassName: "debate_com.Debate")
+                    let debate = NSKeyedUnarchiver.unarchiveObject(with: data) as! Debate
                     debates.append(debate)
                     
                     if debate.forArguer != "" || debate.againstArguer != ""{
                     
-                    let dateFormatter = NSDateFormatter()
+                    let dateFormatter = DateFormatter()
                     dateFormatter.dateFormat = "MM-dd-yyyy HH:mm:ss"
-                    let date = dateFormatter.dateFromString(debate.inviteTimeStamp)
+                    let date = dateFormatter.date(from: debate.inviteTimeStamp)
                     // get time elapsed
-                    var secondsSinceInvite = Int(NSDate().timeIntervalSinceDate(date!))
+                    var secondsSinceInvite = Int(Date().timeIntervalSince(date!))
                     // get the time left not elapsed
                     // give 8 minutes for user to respond
                     secondsSinceInvite = 480 - secondsSinceInvite
                     
                     // user has already accepted the debate
                     if debate.dateStarted != ""{
-                        let dateFormatter = NSDateFormatter()
+                        let dateFormatter = DateFormatter()
                         dateFormatter.dateFormat = "MM-dd-yyyy HH:mm:ss"
-                        let date = dateFormatter.dateFromString(debate.dateStarted)
-                        var currentSeconds = Int(NSDate().timeIntervalSinceDate(date!))
+                        let date = dateFormatter.date(from: debate.dateStarted)
+                        var currentSeconds = Int(Date().timeIntervalSince(date!))
                         currentSeconds = debate.minutesPerArgument*60 - currentSeconds
                         
                         if self.currentUsername == debate.defender || self.currentUsername == debate.challenger{
@@ -338,7 +361,7 @@ class DebatesViewController: UIViewController, UICollectionViewDataSource, UICol
                             if currentSeconds < 0 && !debate.finished{
                                 debate.finished = true
                                 i.setObject(true, forKey: finishedKey)
-                                i["Debate"] = NSKeyedArchiver.archivedDataWithRootObject(debate)
+                                i["Debate"] = NSKeyedArchiver.archivedData(withRootObject: debate)
                                 i.saveInBackground()
                                 // else if the debate is actually not finished
                             }else if currentSeconds > 0 && !debate.finished{
@@ -354,23 +377,24 @@ class DebatesViewController: UIViewController, UICollectionViewDataSource, UICol
                         debate.finished = true
                         i.setObject(true, forKey: finishedKey)
                         i.setObject("", forKey: defenderKey)
-                        i["Debate"] = NSKeyedArchiver.archivedDataWithRootObject(debate)
+                        i["Debate"] = NSKeyedArchiver.archivedData(withRootObject: debate)
                         i.saveInBackground()
                     }
                     
-                    if (debate.defender == "o+" || debate.defender == PFUser.currentUser()!.username!) && debate.challenger != PFUser.currentUser()!.username! && secondsSinceInvite > 5 && !refusedDebates.contains(debate.title){
+                    if (debate.defender == "o+" || debate.defender == PFUser.current()!.username!) && debate.challenger != PFUser.current()!.username! && secondsSinceInvite > 5 && !refusedDebates.contains(debate.title){
                         invites.append(i)
                     }
                 }
                 }
                 self.invitedDebates = invites
-                rawDebates = data!.reverse()
-                debatesMain = debates.reverse()
+                rawDebates = data!.reversed()
+                debatesMain = debates.reversed()
                 isLoading = true
                 currentUser.setObject(self.inDebate, forKey: "inDebate")
-                currentUser.saveInBackgroundWithBlock({ (success: Bool, error: NSError?) -> Void in
+                currentUser.saveInBackground({ (success: Bool, error: NSError?) -> Void in
                     currentUser.fetchInBackground()
-                    self.collectionView.reloadData()
+                    
+                    self.tableView.reloadData()
                 })
                 }else{
                 print(error?.localizedDescription)
@@ -379,93 +403,115 @@ class DebatesViewController: UIViewController, UICollectionViewDataSource, UICol
             self.showInvitation()
         }
     }
-    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-        selectedDebate = debatesMain[indexPath.row]
-        selectedRawData = rawDebates[indexPath.row]
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        selectedDebate = debatesMain[(indexPath as NSIndexPath).row]
+        selectedRawData = rawDebates[(indexPath as NSIndexPath).row]
+        
         let query = PFQuery(className: "Views")
         query.whereKey("debateObjectID", equalTo: selectedRawData.objectId!)
-        query.findObjectsInBackgroundWithBlock { (objects, error) -> Void in
-            let object = objects![0]
-            var viewers = object["viewers"] as? [String]
-            if viewers == nil{
-                viewers = []
-            }
-            if !viewers!.contains(PFUser.currentUser()!.username!){
-                viewers!.append(PFUser.currentUser()!.username!)
-                object.setObject(viewers!, forKey: "viewers")
-                object.saveInBackgroundWithBlock({ (success, error) -> Void in
+        query.findObjectsInBackground { (objects, error) -> Void in
+            var viewObjectArray = objects!
+            func view() {
+                let object = viewObjectArray[0]
+                var viewers = object["viewers"] as? [String]
+                if viewers == nil{
+                    viewers = []
+                }
+                if !viewers!.contains(PFUser.current()!.username!){
+                    viewers!.append(PFUser.current()!.username!)
+                    object.setObject(viewers!, forKey: "viewers")
+                    object.saveInBackground({ (success, error) -> Void in
+                        if self.selectedDebate.forArguer != "" || self.selectedDebate.againstArguer != ""{
+                            self.performSegue(withIdentifier: "fromDebates", sender: self)
+                        }else{
+                            self.performSegue(withIdentifier: "pollSeg", sender: self)
+                        }
+                    })
+                }else{
                     if self.selectedDebate.forArguer != "" || self.selectedDebate.againstArguer != ""{
-                        self.performSegueWithIdentifier("fromDebates", sender: self)
+                        self.performSegue(withIdentifier: "fromDebates", sender: self)
                     }else{
-                        self.performSegueWithIdentifier("pollSeg", sender: self)
+                        self.performSegue(withIdentifier: "pollSeg", sender: self)
                     }
+                }
+            }
+            
+            if viewObjectArray.count == 0{
+                let viewObject = PFObject(className: "Views")
+                viewObject["viewers"] = [String]()
+                viewObject["debateObjectID"] = self.selectedRawData.objectId
+                viewObject.saveInBackground({ (success, error) in
+                    viewObjectArray.append(viewObject)
+                    view()
                 })
             }else{
-                if self.selectedDebate.forArguer != "" || self.selectedDebate.againstArguer != ""{
-                    self.performSegueWithIdentifier("fromDebates", sender: self)
-                }else{
-                    self.performSegueWithIdentifier("pollSeg", sender: self)
-                }
+                view()
             }
         }
         
     }
-    func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        //print(debatesMain[0].title)
         return debatesMain.count
     }
-    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier("debateCell", forIndexPath: indexPath) as! DebateCollectionViewCell
-        cell.layer.borderColor = UIColor.clearColor().CGColor
-        let debate = debatesMain[indexPath.row]
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
+        let cell = tableView.dequeueReusableCell(withIdentifier: "DebateCell", for: indexPath) as! DebateCell
+        //cell.layer.borderColor = UIColor.clearColor().CGColor
+        let debate = debatesMain[(indexPath as NSIndexPath).row]
         if debate.challenger != ""{
             let query = PFQuery(className: "Views")
-            query.whereKey("debateObjectID", equalTo: rawDebates[indexPath.row].objectId!)
-            query.findObjectsInBackgroundWithBlock({ (objects, error) -> Void in
-                let viewers = objects?[0].objectForKey("viewers") as? [String]
-                cell.data.text = "Views: \(viewers?.count != nil ? debate.viewers.count : 0) · Comments: \(debate.comments.count) · Votes: \(debate.forVotes + debate.againstVotes)"
+            query.whereKey("debateObjectID", equalTo: rawDebates[(indexPath as NSIndexPath).row].objectId!)
+            query.findObjectsInBackground({ (objects, error) -> Void in
+                if objects?.count > 0{
+                    let viewers = objects?[0].object(forKey: "viewers") as? [String]
+                    cell.data.text = "Views: \(viewers?.count != nil ? debate.viewers.count : 0) · Comments: \(debate.comments.count) · Votes: \(debate.forVotes + debate.againstVotes)"
+                }else{
+                    cell.data.text = "Data Not Available"
+                }
             })
         }else{
             if debate.forVotes != 0 || debate.againstVotes != 0{
                 if debate.forVotes > debate.againstVotes{
-                    cell.data.text = "\((debate.forVotes * 100) / (debate.forVotes + debate.againstVotes))% \(debate.title.componentsSeparatedByString(":")[0])"
+                    cell.data.text = "\((debate.forVotes * 100) / (debate.forVotes + debate.againstVotes))% \(debate.title.components(separatedBy: ":")[0])"
                 }else if debate.forVotes < debate.againstVotes{
-                    cell.data.text = "\((debate.againstVotes * 100) / (debate.forVotes + debate.againstVotes))% \(debate.title.componentsSeparatedByString(":")[1])"
+                    cell.data.text = "\((debate.againstVotes * 100) / (debate.forVotes + debate.againstVotes))% \(debate.title.components(separatedBy: ":")[1])"
                 }else if debate.againstVotes == debate.forVotes{
-                    cell.data.text = "50% \(debate.title.componentsSeparatedByString(":")[0])"
+                    cell.data.text = "50% \(debate.title.components(separatedBy: ":")[0])"
                 }
             }
         }
         print(debate.category)
         switch debate.category{
         case categoryArray[0]:
-            cell.image.image = UIImage(named: "economy")
+            cell.debateImage.image = #imageLiteral(resourceName: "economy")
         case categoryArray[1]:
-            cell.image.image = UIImage(named: "education")
+            cell.debateImage.image = #imageLiteral(resourceName: "education")
         case categoryArray[2]:
-            cell.image.image = UIImage(named: "environment")
+            cell.debateImage.image = #imageLiteral(resourceName: "environment")
         case categoryArray[3]:
-            cell.image.image = UIImage(named: "space")
+            cell.debateImage.image = #imageLiteral(resourceName: "space")
         case categoryArray[4]:
-            cell.image.image = UIImage(named: "health")
+            cell.debateImage.image = #imageLiteral(resourceName: "health")
         case categoryArray[5]:
-            cell.image.image = UIImage(named: "history")
+            cell.debateImage.image = #imageLiteral(resourceName: "history")
         case categoryArray[6]:
-            cell.image.image = UIImage(named: "language")
+            cell.debateImage.image = #imageLiteral(resourceName: "language")
         case categoryArray[7]:
-            cell.image.image = UIImage(named: "law")
+            cell.debateImage.image = #imageLiteral(resourceName: "law")
         case categoryArray[8]:
-            cell.image.image = UIImage(named: "politics")
+            cell.debateImage.image = #imageLiteral(resourceName: "politics")
         case categoryArray[9]:
-            cell.image.image = UIImage(named: "religion")
+            cell.debateImage.image = #imageLiteral(resourceName: "religion")
         case categoryArray[10]:
-            cell.image.image = UIImage(named: "science")
+            cell.debateImage.image = #imageLiteral(resourceName: "science")
         default:
             break;
         }
         cell.name.text = debate.title
         return cell
     }
-    override func viewWillDisappear(animated: Bool) {
+    override func viewWillDisappear(_ animated: Bool) {
         if timer != nil{
             timer.invalidate()
             timer = nil
@@ -475,7 +521,7 @@ class DebatesViewController: UIViewController, UICollectionViewDataSource, UICol
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "fromDebates"{
             // go to different vcs based on different actions
             let vc = segue.destinationViewController as! DebateManagerViewController
@@ -493,49 +539,50 @@ class DebatesViewController: UIViewController, UICollectionViewDataSource, UICol
     }
     func showInvitation(){
         if invitedDebates.count > 0{
-            let debate = NSKeyedUnarchiver.unarchiveObjectWithData(invitedDebates[0].objectForKey("Debate") as! NSData) as! Debate
+            NSKeyedUnarchiver.setClass(Debate.self, forClassName: "debate_com.Debate")
+            let debate = NSKeyedUnarchiver.unarchiveObject(with: invitedDebates[0].object(forKey: "Debate") as! Data) as! Debate
             let i = invitedDebates[0]
-            let alert = UIAlertController(title: "Invitation to Debate", message: "\(debate.challenger) has invited you to the \(debate.title) debate!", preferredStyle: UIAlertControllerStyle.Alert)
-            let action = UIAlertAction(title: "Accept", style: UIAlertActionStyle.Default, handler: { (action) -> Void in
-                PFUser.currentUser()!.setObject(true, forKey: "inDebate")
-                PFUser.currentUser()!.saveInBackground()
-                PFUser.currentUser()!.fetchInBackground()
-                debate.defender = "\(PFUser.currentUser()!.username!)-"
+            let alert = UIAlertController(title: "Invitation to Debate", message: "\(debate.challenger) has invited you to the \(debate.title) debate!", preferredStyle: UIAlertControllerStyle.alert)
+            let action = UIAlertAction(title: "Accept", style: UIAlertActionStyle.default, handler: { (action) -> Void in
+                PFUser.current()!.setObject(true, forKey: "inDebate")
+                PFUser.current()!.saveInBackground()
+                PFUser.current()!.fetchInBackground()
+                debate.defender = "\(PFUser.current()!.username!)-"
                 if debate.forArguer == "o+"{
-                    debate.forArguer = "\(PFUser.currentUser()!.username!)-"
+                    debate.forArguer = "\(PFUser.current()!.username!)-"
                 }else if debate.againstArguer == "o+"{
-                    debate.againstArguer = "\(PFUser.currentUser()!.username!)-"
-                }else if debate.forArguer == PFUser.currentUser()!.username!{
-                    debate.forArguer = "\(PFUser.currentUser()!.username!)-"
-                }else if debate.againstArguer == PFUser.currentUser()!.username!{
-                    debate.againstArguer = "\(PFUser.currentUser()!.username!)-"
+                    debate.againstArguer = "\(PFUser.current()!.username!)-"
+                }else if debate.forArguer == PFUser.current()!.username!{
+                    debate.forArguer = "\(PFUser.current()!.username!)-"
+                }else if debate.againstArguer == PFUser.current()!.username!{
+                    debate.againstArguer = "\(PFUser.current()!.username!)-"
                 }
                 i.setObject(debate.defender, forKey: defenderKey)
-                let dateFormatter:NSDateFormatter = NSDateFormatter()
+                let dateFormatter:DateFormatter = DateFormatter()
                 dateFormatter.dateFormat = "MM-dd-yyyy HH:mm:ss"
-                let dateInFormat:String = dateFormatter.stringFromDate(NSDate())
+                let dateInFormat:String = dateFormatter.string(from: Date())
                 debate.dateStarted = dateInFormat
                 i.setObject(dateInFormat, forKey: dateStartedKey)
-                i["Debate"] = NSKeyedArchiver.archivedDataWithRootObject(debate)
-                i.saveInBackgroundWithBlock({ (success, error) -> Void in
+                i["Debate"] = NSKeyedArchiver.archivedData(withRootObject: debate)
+                i.saveInBackground({ (success, error) -> Void in
                     DebateClient.sendPush("\(debate.defender) has accepted your debate \(debate.title))", username: debate.challenger)
                 })
             })
-            let declineAction = UIAlertAction(title: "Decline", style: UIAlertActionStyle.Default, handler: { (action) -> Void in
-                PFUser.currentUser()!.setObject(false, forKey: "inDebate")
-                PFUser.currentUser()!.saveInBackground()
-                PFUser.currentUser()!.fetchInBackground()
-                self.invitedDebates.removeAtIndex(0)
+            let declineAction = UIAlertAction(title: "Decline", style: UIAlertActionStyle.default, handler: { (action) -> Void in
+                PFUser.current()!.setObject(false, forKey: "inDebate")
+                PFUser.current()!.saveInBackground()
+                PFUser.current()!.fetchInBackground()
+                self.invitedDebates.remove(at: 0)
                 self.showInvitation()
                 refusedDebates.append(debate.title)
             })
             alert.addAction(declineAction)
             alert.addAction(action)
-            self.presentViewController(alert, animated: true, completion: nil)
+            self.present(alert, animated: true, completion: nil)
         }
     }
-    @IBAction func chat(sender: AnyObject) {
+    @IBAction func chat(_ sender: AnyObject) {
         let controller = GroupsViewController()
-        self.showViewController(controller, sender: self)
+        self.show(controller, sender: self)
     }
 }

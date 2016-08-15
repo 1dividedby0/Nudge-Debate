@@ -24,9 +24,9 @@ class MenuController: UITableViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "signOut"{
-            print(PFUser.currentUser()?.username)
+            print(PFUser.current()?.username)
             PFUser.logOut()
         }
     }

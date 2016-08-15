@@ -19,8 +19,8 @@ class ResearchViewController: UIViewController {
             menuButton.action = "revealToggle:"
             self.view.addGestureRecognizer(self.revealViewController().panGestureRecognizer())
         }
-        let url = NSURL(string: "http://google.com")
-        let request = NSURLRequest(URL: url!)
+        let url = URL(string: "http://google.com")
+        let request = URLRequest(url: url!)
         webView.loadRequest(request) 
         
         // Do any additional setup after loading the view.
@@ -31,17 +31,17 @@ class ResearchViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    @IBAction func stopAction(sender: AnyObject) {
+    @IBAction func stopAction(_ sender: AnyObject) {
         webView.stopLoading()
     }
-    @IBAction func refreshAction(sender: AnyObject) {
+    @IBAction func refreshAction(_ sender: AnyObject) {
         webView.reload()
     }
-    @IBAction func rewindAction(sender: AnyObject) {
+    @IBAction func rewindAction(_ sender: AnyObject) {
         webView.goBack()
     }
     
-    @IBAction func fastForwardAction(sender: AnyObject) {
+    @IBAction func fastForwardAction(_ sender: AnyObject) {
         webView.goForward()
     }
 

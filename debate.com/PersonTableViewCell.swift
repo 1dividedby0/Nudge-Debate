@@ -20,7 +20,7 @@ class PersonTableViewCell: UITableViewCell {
         // Initialization code
     }
     func setUp(){
-        nameLabel.text = user.username!.stringByReplacingOccurrencesOfString("-", withString: "")
+        nameLabel.text = user.username!.replacingOccurrences(of: "-", with: "")
 //        if ((user.objectForKey("profile_pic") as? PFFile) != nil){
 //            let file = user.objectForKey("profile_pic") as! PFFile
 //            file.getDataInBackgroundWithBlock({ (data, error) -> Void in
@@ -29,7 +29,7 @@ class PersonTableViewCell: UITableViewCell {
 //        }
     }
 
-    override func setSelected(selected: Bool, animated: Bool) {
+    override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
 
         // Configure the view for the selected state

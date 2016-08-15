@@ -16,9 +16,9 @@ class GroupsViewController: UITableViewController {
         super.viewDidLoad()
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.registerClass(GroupTableViewCell.self, forCellReuseIdentifier: "groupCell")
+        tableView.register(GroupTableViewCell.self, forCellReuseIdentifier: "groupCell")
         let query = PFQuery(className: "Groups")
-        query.findObjectsInBackgroundWithBlock { (data, error) -> Void in
+        query.findObjectsInBackground { (data, error) -> Void in
             if error == nil {
                 self.data = data!
                 self.tableView.reloadData()
@@ -32,17 +32,17 @@ class GroupsViewController: UITableViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return data.count
     }
 
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("groupCell") as! GroupTableViewCell
-        print(data[indexPath.row].objectForKey("name")!)
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "groupCell") as! GroupTableViewCell
+        print(data[(indexPath as NSIndexPath).row].object(forKey: "name")!)
         if cell.groupName != nil{
-            cell.groupName.text = data[indexPath.row].objectForKey("name") as? String
+            cell.groupName.text = data[(indexPath as NSIndexPath).row].object(forKey: "name") as? String
         }
-        cell.messages = data[indexPath.row].objectForKey("messages") as? [String]
+        cell.messages = data[(indexPath as NSIndexPath).row].object(forKey: "messages") as? [String]
         return cell
     }
     /*

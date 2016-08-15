@@ -9,6 +9,7 @@
 import UIKit
 import Parse
 import Bolts
+import FBSDKCoreKit
 
 var newData = false
 
@@ -16,82 +17,93 @@ var newData = false
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-    func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
-        Rollout.setupWithKey("56bbf366cc626037300599b8")
+        // ROLLOUT SETUP
+        //Rollout.setup(withKey: "56bbf366cc626037300599b8")
         
+        // FACEBOOK SETUP
+        FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
+        
+        // PARSE SETUP
         Parse.enableLocalDatastore()
         Parse.setApplicationId("QPhr2OMkucMziOB8pCbLc2Q977I96K9HkJHx5wsV",
             clientKey: "iMq57OxwsNW1uy7ZXUr82MZ2nFEywIsHWyigg17T")
-        if application.applicationState != UIApplicationState.Background{
-            let preBackgroundPush = !application.respondsToSelector("backgroundRefreshStatus")
-            let oldPushHandlerOnly = !self.respondsToSelector("application:didReceiveRemoteNotification:fetchCompletionHandler:")
+        if application.applicationState != UIApplicationState.background{
+            let preBackgroundPush = !application.responds(to: "backgroundRefreshStatus")
+            let oldPushHandlerOnly = !self.responds(to: "application:didReceiveRemoteNotification:fetchCompletionHandler:")
             var pushPayLoad = false
             if let options = launchOptions{
                 pushPayLoad = options[UIApplicationLaunchOptionsRemoteNotificationKey] != nil
             }
             if preBackgroundPush || oldPushHandlerOnly || pushPayLoad {
-                PFAnalytics.trackAppOpenedWithLaunchOptions(launchOptions)
+                PFAnalytics.trackAppOpened(launchOptions: launchOptions)
             }
         }
-        let settings = UIUserNotificationSettings(forTypes: [.Alert, .Badge, .Sound], categories: nil)
+        let settings = UIUserNotificationSettings(types: [.alert, .badge, .sound], categories: nil)
         application.registerUserNotificationSettings(settings)
         application.registerForRemoteNotifications()
         // automatically signs user in
-        if PFUser.currentUser() != nil{
+        if PFUser.current() != nil{
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
-            if PFUser.currentUser()!.objectForKey("side") != nil{
-                let initialViewController = storyboard.instantiateViewControllerWithIdentifier("revealController") as! SWRevealViewController
+            if PFUser.current()!.object(forKey: "side") != nil{
+                let initialViewController = storyboard.instantiateViewController(withIdentifier: "revealController") as! SWRevealViewController
                 self.window?.rootViewController = initialViewController
                 self.window?.makeKeyAndVisible()
             }else{
-                let initialViewController = storyboard.instantiateViewControllerWithIdentifier("chooseSide") as! ChooseSideViewController
+                let initialViewController = storyboard.instantiateViewController(withIdentifier: "chooseSide") as! ChooseSideViewController
                 self.window?.rootViewController = initialViewController
                 self.window?.makeKeyAndVisible()
             }
         }
         return true
     }
-    func application(application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData) {
-        let installation = PFInstallation.currentInstallation()
-        installation.setDeviceTokenFromData(deviceToken)
+    func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+        let installation = PFInstallation.current()
+        installation.setDeviceTokenFrom(deviceToken)
         installation.saveInBackground()
     }
-    func application(application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: NSError) {
+    func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: NSError) {
         if error.code == 3010{
             print("Push Notifications not supported by IOS sim")
         }else{
              print("application:didFailToRegisterForRemoteNotificationsWithError: %@", error)
         }
     }
-    func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject]) {
-        PFPush.handlePush(userInfo)
-        if application.applicationState == UIApplicationState.Inactive{
-            PFAnalytics.trackAppOpenedWithRemoteNotificationPayload(userInfo)
-        }else if application.applicationState == UIApplicationState.Active{
+    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject]) {
+        PFPush.handle(userInfo)
+        if application.applicationState == UIApplicationState.inactive{
+            PFAnalytics.trackAppOpened(withRemoteNotificationPayload: userInfo)
+        }else if application.applicationState == UIApplicationState.active{
             newData = true
         }
     }
-    func applicationWillResignActive(application: UIApplication) {
+    
+    func application(_ application: UIApplication, open url: URL, sourceApplication: String?, annotation: AnyObject) -> Bool {
+        return FBSDKApplicationDelegate.sharedInstance().application(application, open: url, sourceApplication: sourceApplication, annotation: annotation)
+    }
+    
+    func applicationWillResignActive(_ application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
         // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
     }
 
-    func applicationDidEnterBackground(application: UIApplication) {
+    func applicationDidEnterBackground(_ application: UIApplication) {
         // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
         // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
         
     }
 
-    func applicationWillEnterForeground(application: UIApplication) {
+    func applicationWillEnterForeground(_ application: UIApplication) {
         // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
     }
 
-    func applicationDidBecomeActive(application: UIApplication) {
+    func applicationDidBecomeActive(_ application: UIApplication) {
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+        FBSDKAppEvents.activateApp()
     }
 
-    func applicationWillTerminate(application: UIApplication) {
+    func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
 

@@ -9,11 +9,11 @@
 import UIKit
 import Parse
 class HomePageViewController: UIViewController {
-    override func viewWillAppear(animated: Bool) {
-        if PFUser.currentUser() != nil{
+    override func viewWillAppear(_ animated: Bool) {
+        if PFUser.current() != nil{
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
-            let vc = storyboard.instantiateViewControllerWithIdentifier("revealController") as! SWRevealViewController
-            self.presentViewController(vc, animated: true, completion: nil)
+            let vc = storyboard.instantiateViewController(withIdentifier: "revealController") as! SWRevealViewController
+            self.present(vc, animated: true, completion: nil)
         }
     }
     override func viewDidLoad() {

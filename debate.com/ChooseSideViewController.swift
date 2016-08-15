@@ -21,16 +21,16 @@ class ChooseSideViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    @IBAction func blueSide(sender: AnyObject) {
-        PFUser.currentUser()!.setObject("blue", forKey: "side")
-        PFUser.currentUser()!.saveInBackgroundWithBlock { (success, error) -> Void in
-            self.performSegueWithIdentifier("chosen", sender: self)
+    @IBAction func blueSide(_ sender: AnyObject) {
+        PFUser.current()!.setObject("blue", forKey: "side")
+        PFUser.current()!.saveInBackground { (success, error) -> Void in
+            self.performSegue(withIdentifier: "chosen", sender: self)
         }
     }
-    @IBAction func redSide(sender: AnyObject) {
-        PFUser.currentUser()!.setObject("red", forKey: "side")
-        PFUser.currentUser()!.saveInBackgroundWithBlock { (success, error) -> Void in
-            self.performSegueWithIdentifier("chosen", sender: self)
+    @IBAction func redSide(_ sender: AnyObject) {
+        PFUser.current()!.setObject("red", forKey: "side")
+        PFUser.current()!.saveInBackground { (success, error) -> Void in
+            self.performSegue(withIdentifier: "chosen", sender: self)
         }
     }
 

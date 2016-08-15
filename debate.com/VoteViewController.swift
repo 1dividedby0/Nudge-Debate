@@ -29,17 +29,20 @@ class VoteViewController: UIViewController, UITableViewDelegate, UITableViewData
         tableView.estimatedRowHeight = 100
         tableView.rowHeight = UITableViewAutomaticDimension
         
-        commentButton.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
-        commentButton.backgroundColor = UIColor.cyanColor()
+        commentButton.setTitleColor(UIColor.white(), for: UIControlState())
+        commentButton.backgroundColor = UIColor.cyan()
         commentButton.layer.cornerRadius = 6
+        print(debate)
+        print(debate.forArguer)
+        print(debate.againstArguer)
         if debate.forArguer != "" || debate.againstArguer != ""{
             forLabel.text = debate.forArguer
             againstLabel.text = debate.againstArguer
             forVotes.text = "\(debate.forVotes)"
             againstVotes.text = "\(debate.againstVotes)"
         }else{
-            forLabel.text = debate.title.componentsSeparatedByString(":")[0]
-            againstLabel.text = debate.title.componentsSeparatedByString(":")[1]
+            forLabel.text = debate.title.components(separatedBy: ":")[0]
+            againstLabel.text = debate.title.components(separatedBy: ":")[1]
             forVotes.text = "\(debate.forVotes)"
             againstVotes.text = "\(debate.againstVotes)"
         }
@@ -50,76 +53,76 @@ class VoteViewController: UIViewController, UITableViewDelegate, UITableViewData
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return debate.comments.count
     }
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = UITableViewCell()
-        cell.textLabel!.text = debate.comments[indexPath.row]
-        cell.textLabel!.lineBreakMode = NSLineBreakMode.ByWordWrapping
+        cell.textLabel!.text = debate.comments[(indexPath as NSIndexPath).row]
+        cell.textLabel!.lineBreakMode = NSLineBreakMode.byWordWrapping
         cell.textLabel!.numberOfLines = 0
         return cell
     }
-    func deleteElement(element: String, array: [String]) -> [String]{
+    func deleteElement(_ element: String, array: [String]) -> [String]{
         return array.filter() { $0 != element }
     }
-    @IBAction func forVote(sender: AnyObject) {
-        if !debate.forVoters.contains(PFUser.currentUser()!.username!) {
+    @IBAction func forVote(_ sender: AnyObject) {
+        if !debate.forVoters.contains(PFUser.current()!.username!) {
             debate.forVotes = debate.forVotes + 1
             forVotes.text = "\(debate.forVotes)"
-            debate.forVoters.append(PFUser.currentUser()!.username!)
-            rawData["Debate"] = NSKeyedArchiver.archivedDataWithRootObject(debate)
+            debate.forVoters.append(PFUser.current()!.username!)
+            rawData["Debate"] = NSKeyedArchiver.archivedData(withRootObject: debate)
             rawData.saveEventually()
         }
-        if debate.againstVoters.contains(PFUser.currentUser()!.username!){
+        if debate.againstVoters.contains(PFUser.current()!.username!){
             debate.againstVotes = debate.againstVotes - 1
             againstVotes.text = "\(debate.againstVotes)"
-            debate.againstVoters = deleteElement(PFUser.currentUser()!.username!, array: debate.againstVoters)
-            rawData["Debate"] = NSKeyedArchiver.archivedDataWithRootObject(debate)
+            debate.againstVoters = deleteElement(PFUser.current()!.username!, array: debate.againstVoters)
+            rawData["Debate"] = NSKeyedArchiver.archivedData(withRootObject: debate)
             rawData.saveEventually()
             
         }
     }
-    @IBAction func againstVote(sender: AnyObject) {
-        if !debate.againstVoters.contains(PFUser.currentUser()!.username!){
+    @IBAction func againstVote(_ sender: AnyObject) {
+        if !debate.againstVoters.contains(PFUser.current()!.username!){
             debate.againstVotes = debate.againstVotes + 1
             againstVotes.text = "\(debate.againstVotes)"
-            debate.againstVoters.append(PFUser.currentUser()!.username!)
-            rawData["Debate"] = NSKeyedArchiver.archivedDataWithRootObject(debate)
+            debate.againstVoters.append(PFUser.current()!.username!)
+            rawData["Debate"] = NSKeyedArchiver.archivedData(withRootObject: debate)
             rawData.saveEventually()
             
         }
-        if debate.forVoters.contains(PFUser.currentUser()!.username!){
+        if debate.forVoters.contains(PFUser.current()!.username!){
             debate.forVotes = debate.forVotes - 1
             forVotes.text = "\(debate.forVotes)"
-            debate.forVoters = deleteElement(PFUser.currentUser()!.username!, array: debate.forVoters)
-            rawData["Debate"] = NSKeyedArchiver.archivedDataWithRootObject(debate)
+            debate.forVoters = deleteElement(PFUser.current()!.username!, array: debate.forVoters)
+            rawData["Debate"] = NSKeyedArchiver.archivedData(withRootObject: debate)
             rawData.saveEventually()
             
         }
     }
-    @IBAction func comment(sender: AnyObject) {
-        let alert = UIAlertController(title: "Comment", message: "", preferredStyle: UIAlertControllerStyle.Alert)
+    @IBAction func comment(_ sender: AnyObject) {
+        let alert = UIAlertController(title: "Comment", message: "", preferredStyle: UIAlertControllerStyle.alert)
         var commentTextField: UITextField?
-        let commentAction = UIAlertAction(title: "Done", style: UIAlertActionStyle.Default) { (action: UIAlertAction) -> Void in
+        let commentAction = UIAlertAction(title: "Done", style: UIAlertActionStyle.default) { (action: UIAlertAction) -> Void in
             print(commentTextField)
             if commentTextField!.text != ""{
                 self.debate.comments.append((commentTextField?.text)!)
-                self.rawData["Debate"] = NSKeyedArchiver.archivedDataWithRootObject(self.debate)
-                self.rawData.saveInBackgroundWithBlock({ (success, error) -> Void in
+                self.rawData["Debate"] = NSKeyedArchiver.archivedData(withRootObject: self.debate)
+                self.rawData.saveInBackground({ (success, error) -> Void in
                     self.tableView.reloadData()
                 })
             }
         }
-        let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Default) { (action: UIAlertAction) -> Void in
+        let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.default) { (action: UIAlertAction) -> Void in
             
         }
         alert.addAction(cancelAction)
         alert.addAction(commentAction)
-        alert.addTextFieldWithConfigurationHandler { (textField: UITextField) -> Void in
+        alert.addTextField { (textField: UITextField) -> Void in
             commentTextField = textField
             commentTextField?.placeholder = "Comment"
         }
-        self.presentViewController(alert, animated: true, completion: nil)
+        self.present(alert, animated: true, completion: nil)
     }
 }

@@ -20,10 +20,13 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
             menuButton.action = "revealToggle:"
             self.view.addGestureRecognizer(self.revealViewController().panGestureRecognizer())
         }
-        if ((PFUser.currentUser()!.objectForKey("profile_pic") as? PFFile) != nil){
-            let file = PFUser.currentUser()!.objectForKey("profile_pic") as! PFFile
-            file.getDataInBackgroundWithBlock({ (data, error) -> Void in
-                self.profileImageView.image = UIImage(data: data!)
+        if ((PFUser.current()!.object(forKey: "profile_pic") as? PFFile) != nil){
+            let file = PFUser.current()!.object(forKey: "profile_pic") as! PFFile
+            //file.delete(self)
+            print(file)
+            file.getDataInBackground({ (data, error) -> Void in
+                let image = UIImage(data: data!)
+                self.profileImageView.image = UIImage(cgImage: (image?.cgImage)!, scale: (image?.scale)!, orientation: UIImageOrientation.right)
             })
         }
         // Do any additional setup after loading the view.
@@ -35,20 +38,23 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     }
     
    
-    @IBAction func editProfileImage(sender: AnyObject) {
+    @IBAction func editProfileImage(_ sender: AnyObject) {
         imagePicker = UIImagePickerController()
         imagePicker.delegate = self
-        imagePicker.sourceType = .Camera
-        presentViewController(imagePicker, animated: true, completion: nil)
+        print(UIImagePickerController.isSourceTypeAvailable(.camera))
+        imagePicker.sourceType = .camera
+        
+        present(imagePicker, animated: true, completion: nil)
     }
-    func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
-        imagePicker.dismissViewControllerAnimated(true, completion: nil)
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
+        imagePicker.dismiss(animated: true, completion: nil)
         let image = info[UIImagePickerControllerOriginalImage] as? UIImage
-        let imageData = UIImagePNGRepresentation(image!)
+        let imageData = UIImageJPEGRepresentation(image!, 0.9)
         let imageFile = PFFile(data: imageData!)
-        PFUser.currentUser()!.setObject(imageFile!, forKey: "profile_pic")
-        PFUser.currentUser()!.saveInBackground()
-        profileImageView.image = image
+        PFUser.current()!.setObject(imageFile!, forKey: "profile_pic")
+        PFUser.current()!.saveInBackground { (success, error) in
+            self.profileImageView.image = image
+        }
     }
     
     /*
