@@ -28,7 +28,7 @@ class NewPollTableViewController: UITableViewController, UIPickerViewDataSource,
         picker.dataSource = self
         users = [String]()
         query = PFUser.query()
-        query!.findObjectsInBackground({ (array, error) -> Void in
+        query!.findObjectsInBackground(block: { (array, error) -> Void in
             for i in array!{
                 self.users.append((i as! PFUser).username!)
             }

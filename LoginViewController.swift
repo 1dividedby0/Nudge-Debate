@@ -46,13 +46,13 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
                 currentUser = PFUser.current()!
                 let currentInstallation = PFInstallation.current()
                 currentInstallation["user"] = PFUser.current()!
-                currentInstallation.saveInBackground({ (success: Bool, error: NSError?) -> Void in
+                currentInstallation.saveInBackground(block: { (success: Bool, error: NSError?) -> Void in
                     if success{
-                        if PFUser.current()?.object(forKey: "side") != nil{
+                        //if PFUser.current()?.object(forKey: "side") != nil{
                             self.performSegue(withIdentifier: "loggedIn", sender: self)
-                        }else{
-                            self.performSegue(withIdentifier: "toChoose", sender: self)
-                        }
+                        //}else{
+                            //self.performSegue(withIdentifier: "toChoose", sender: self)
+                        //}
                     }
                 })
             }

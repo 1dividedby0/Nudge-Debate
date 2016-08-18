@@ -391,7 +391,7 @@ class DebatesViewController: UIViewController, UITableViewDataSource, UITableVie
                 debatesMain = debates.reversed()
                 isLoading = true
                 currentUser.setObject(self.inDebate, forKey: "inDebate")
-                currentUser.saveInBackground({ (success: Bool, error: NSError?) -> Void in
+                currentUser.saveInBackground(block: { (success: Bool, error: NSError?) -> Void in
                     currentUser.fetchInBackground()
                     
                     self.tableView.reloadData()
@@ -420,7 +420,7 @@ class DebatesViewController: UIViewController, UITableViewDataSource, UITableVie
                 if !viewers!.contains(PFUser.current()!.username!){
                     viewers!.append(PFUser.current()!.username!)
                     object.setObject(viewers!, forKey: "viewers")
-                    object.saveInBackground({ (success, error) -> Void in
+                    object.saveInBackground(block: { (success, error) -> Void in
                         if self.selectedDebate.forArguer != "" || self.selectedDebate.againstArguer != ""{
                             self.performSegue(withIdentifier: "fromDebates", sender: self)
                         }else{
@@ -440,7 +440,7 @@ class DebatesViewController: UIViewController, UITableViewDataSource, UITableVie
                 let viewObject = PFObject(className: "Views")
                 viewObject["viewers"] = [String]()
                 viewObject["debateObjectID"] = self.selectedRawData.objectId
-                viewObject.saveInBackground({ (success, error) in
+                viewObject.saveInBackground(block: { (success, error) in
                     viewObjectArray.append(viewObject)
                     view()
                 })
@@ -462,7 +462,7 @@ class DebatesViewController: UIViewController, UITableViewDataSource, UITableVie
         if debate.challenger != ""{
             let query = PFQuery(className: "Views")
             query.whereKey("debateObjectID", equalTo: rawDebates[(indexPath as NSIndexPath).row].objectId!)
-            query.findObjectsInBackground({ (objects, error) -> Void in
+            query.findObjectsInBackground(block: { (objects, error) -> Void in
                 if objects?.count > 0{
                     let viewers = objects?[0].object(forKey: "viewers") as? [String]
                     cell.data.text = "Views: \(viewers?.count != nil ? debate.viewers.count : 0) · Comments: \(debate.comments.count) · Votes: \(debate.forVotes + debate.againstVotes)"
@@ -564,7 +564,7 @@ class DebatesViewController: UIViewController, UITableViewDataSource, UITableVie
                 debate.dateStarted = dateInFormat
                 i.setObject(dateInFormat, forKey: dateStartedKey)
                 i["Debate"] = NSKeyedArchiver.archivedData(withRootObject: debate)
-                i.saveInBackground({ (success, error) -> Void in
+                i.saveInBackground(block: { (success, error) -> Void in
                     DebateClient.sendPush("\(debate.defender) has accepted your debate \(debate.title))", username: debate.challenger)
                 })
             })

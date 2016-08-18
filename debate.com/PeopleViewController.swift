@@ -16,7 +16,7 @@ class PeopleViewController: UIViewController, UITableViewDelegate, UITableViewDa
     var timer: Timer!
     override func viewDidAppear(_ animated: Bool) {
         let query = PFUser.query()
-        query?.findObjectsInBackground({ (objects, error) -> Void in
+        query?.findObjectsInBackground(block: { (objects, error) -> Void in
             self.people = objects as! [PFUser]
         })
     }
@@ -31,7 +31,7 @@ class PeopleViewController: UIViewController, UITableViewDelegate, UITableViewDa
         }
         self.automaticallyAdjustsScrollViewInsets = false
         let query = PFUser.query()
-        query?.findObjectsInBackground({ (objects, error) -> Void in
+        query?.findObjectsInBackground(block: { (objects, error) -> Void in
             self.people = objects as! [PFUser]
             self.tableView.reloadData()
         })
@@ -40,7 +40,7 @@ class PeopleViewController: UIViewController, UITableViewDelegate, UITableViewDa
     }
     func reload(){
         let query = PFUser.query()
-        query?.findObjectsInBackground({ (objects, error) -> Void in
+        query?.findObjectsInBackground(block: { (objects, error) -> Void in
             self.people = objects as! [PFUser]
         })
     }

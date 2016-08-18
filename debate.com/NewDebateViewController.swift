@@ -156,7 +156,7 @@ class NewDebateViewController: UITableViewController, UIPickerViewDelegate, UIPi
                 var defenderUser: String = ""
                 var aArguer = ""
                 var fArguer = ""
-                query.findObjectsInBackground({ (objects: [PFObject]?, error: NSError?) -> Void in
+                query.findObjectsInBackground(block: { (objects: [PFObject]?, error: NSError?) -> Void in
                     
                     if objects!.count > 0{
                         defenderUser = (objects![0] as! PFUser).username!

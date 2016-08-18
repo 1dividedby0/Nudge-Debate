@@ -109,7 +109,7 @@ class VoteViewController: UIViewController, UITableViewDelegate, UITableViewData
             if commentTextField!.text != ""{
                 self.debate.comments.append((commentTextField?.text)!)
                 self.rawData["Debate"] = NSKeyedArchiver.archivedData(withRootObject: self.debate)
-                self.rawData.saveInBackground({ (success, error) -> Void in
+                self.rawData.saveInBackground(block: { (success, error) -> Void in
                     self.tableView.reloadData()
                 })
             }

@@ -377,7 +377,7 @@ class DebateManagerViewController: UIViewController, UITableViewDataSource, UITa
     override func shouldPerformSegue(withIdentifier identifier: String, sender: AnyObject?) -> Bool {
         
         if identifier == "newArgument"{
-            rawData.fetchInBackground({ (object: PFObject?, error: NSError?) -> Void in
+            rawData.fetchInBackground(block: { (object: PFObject?, error: NSError?) -> Void in
                 self.errorHandling()
             })
             if debate.arguments.count > 0 && debate.defender != ""{

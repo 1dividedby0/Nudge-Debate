@@ -40,7 +40,7 @@ class DebateClient{
             push.setQuery(query)
             push.setMessage(message)
             
-            push.sendInBackground({ (success, error) -> Void in
+            push.sendInBackground(block: { (success, error) -> Void in
                 if error != nil{
                     print("push notification failed!")
                 }
@@ -88,7 +88,7 @@ class DebateClient{
                 print("success in creating a new debate")
                 
                 DebateClient.sendPush("You have 8 minutes to respond: \(PFUser.current()!.username) has invited you to a debate!", username: debate.defender)
-                rawData.fetchInBackground({ (object, error) in
+                rawData.fetchInBackground(block: { (object, error) in
                     let viewer = PFObject(className: "Views")
                     if let theLatest = object{
                         viewer.setObject(theLatest.objectId!, forKey: "debateObjectID")
@@ -117,7 +117,7 @@ class DebateClient{
         query.findObjectsInBackground { (objects: [PFObject]?, error: NSError?) -> Void in
             object = objects![index]
             object["Debate"] = data
-            object.saveInBackground({ (success: Bool, error: NSError?) -> Void in
+            object.saveInBackground(block: { (success: Bool, error: NSError?) -> Void in
                 if success{
                     print("success in updating")
                 }

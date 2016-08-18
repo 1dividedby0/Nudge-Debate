@@ -50,8 +50,8 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
                     currentUser = PFUser.current()!
                     let currentInstallation = PFInstallation.current()
                     currentInstallation["user"] = PFUser.current()!
-                    currentInstallation.saveInBackground({ (success, error) -> Void in
-                        self.performSegue(withIdentifier: "toChoose", sender: self)
+                    currentInstallation.saveInBackground(block: { (success, error) -> Void in
+                        //self.performSegue(withIdentifier: "toChoose", sender: self)
                     })
                 }
             }
