@@ -17,7 +17,7 @@ class NotificationTableViewCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
-        
+        // test
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
