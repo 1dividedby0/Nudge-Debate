@@ -21,7 +21,7 @@ class AddArgumentViewController: UIViewController, UITextViewDelegate{
         super.viewDidLoad()
         argumentTextField.delegate = self
         argumentTextField.text = placeHolder
-        argumentTextField.textColor = UIColor.lightGray()
+        argumentTextField.textColor = UIColor.lightGray
         // Do any additional setup after loading the view.
     }
     override func didReceiveMemoryWarning() {
@@ -30,16 +30,16 @@ class AddArgumentViewController: UIViewController, UITextViewDelegate{
     }
     
     func textViewDidBeginEditing(_ textView: UITextView) {
-        if argumentTextField.textColor == UIColor.lightGray(){
+        if argumentTextField.textColor == UIColor.lightGray{
             argumentTextField.text = ""
-            argumentTextField.textColor = UIColor.black()
+            argumentTextField.textColor = UIColor.black
         }
     }
     
     func textViewDidEndEditing(_ textView: UITextView) {
         if textView.text.isEmpty {
             textView.text = placeHolder
-            textView.textColor = UIColor.lightGray()
+            textView.textColor = UIColor.lightGray
         }
     }
     
@@ -73,19 +73,19 @@ class AddArgumentViewController: UIViewController, UITextViewDelegate{
     func connectedToNetwork() -> Bool {
         
         var zeroAddress = sockaddr_in()
-        zeroAddress.sin_len = UInt8(sizeofValue(zeroAddress))
+        zeroAddress.sin_len = UInt8(MemoryLayout<sockaddr_in>.size)
         zeroAddress.sin_family = sa_family_t(AF_INET)
         
-        guard let defaultRouteReachability = withUnsafePointer(&zeroAddress, {
-            SCNetworkReachabilityCreateWithAddress(nil, UnsafePointer($0))
-        }) else {
-            return false
-        }
+        //guard let defaultRouteReachability = withUnsafePointer(to: &zeroAddress, {
+          //  SCNetworkReachabilityCreateWithAddress(nil, UnsafePointer($0))
+        //}) else {
+          //  return false
+        //}
         
         var flags : SCNetworkReachabilityFlags = []
-        if !SCNetworkReachabilityGetFlags(defaultRouteReachability, &flags) {
-            return false
-        }
+        //if !SCNetworkReachabilityGetFlags(defaultRouteReachability, &flags) {
+          //  return false
+        //}
         
         let isReachable = flags.contains(.reachable)
         let needsConnection = flags.contains(.connectionRequired)

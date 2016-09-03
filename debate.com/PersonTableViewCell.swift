@@ -20,6 +20,7 @@ class PersonTableViewCell: UITableViewCell {
         // Initialization code
     }
     func setUp(){
+        
         nameLabel.text = user.username!.replacingOccurrences(of: "-", with: "")
 //        if ((user.objectForKey("profile_pic") as? PFFile) != nil){
 //            let file = user.objectForKey("profile_pic") as! PFFile

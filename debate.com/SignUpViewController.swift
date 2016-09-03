@@ -39,18 +39,18 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
             user.username = usernameField.text
             user.password = passwordField.text
             user["inDebate"] = false
-            user.signUpInBackground { (success: Bool!, error: NSError?) -> Void in
+            user.signUpInBackground { (success, error) in
                 if error != nil || success != true{
                     let alert = UIAlertView()
                     alert.title = "Error"
-                    alert.message = error?.description
+                    alert.message = error!.localizedDescription
                     alert.addButton(withTitle: "OK")
                     alert.show()
                 }else{
                     currentUser = PFUser.current()!
                     let currentInstallation = PFInstallation.current()
-                    currentInstallation["user"] = PFUser.current()!
-                    currentInstallation.saveInBackground(block: { (success, error) -> Void in
+                    currentInstallation!["user"] = PFUser.current()!
+                    currentInstallation!.saveInBackground(block: { (success, error) -> Void in
                         //self.performSegue(withIdentifier: "toChoose", sender: self)
                     })
                 }

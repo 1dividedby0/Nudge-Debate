@@ -40,7 +40,7 @@ class NewDebateViewController: UITableViewController, UIPickerViewDelegate, UIPi
         timePerArgumentField.delegate = self
         categoryPicker.dataSource = self
         categoryPicker.delegate = self
-        submitButton.layer.borderColor = UIColor.red().cgColor
+        submitButton.layer.borderColor = UIColor.red.cgColor
         navigationItem.setHidesBackButton(true, animated: true)
         let leftBarButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.cancel, target: self, action: "cancel")
         navigationItem.setLeftBarButton(leftBarButton, animated: true)
@@ -109,14 +109,24 @@ class NewDebateViewController: UITableViewController, UIPickerViewDelegate, UIPi
         }else if selectedRowMinute == 4{
             minutesPerArgument = 10
         }
-        if(Int(rebuttalRoundsField.text!) > 1 && Int(rebuttalRoundsField.text!) < 5 && opponentUsernameField.text != PFUser.current()!.username!){
+        if(Int(rebuttalRoundsField.text!)! > 1 && Int(rebuttalRoundsField.text!)! < 5 && opponentUsernameField.text != PFUser.current()!.username!){
             PFUser.current()?.saveInBackground()
             print(debateTopicField.text!)
             if autoGenerateOpponentSwitch.isOn{
                 let query = PFUser.query()!
-                query.whereKey("inDebate", equalTo: false)
-                query.findObjectsInBackground { (users: [PFObject]?, error: NSError?) -> Void in
-                    if users?.count > 1{
+                
+                //query.whereKey("inDebate", equalTo: false)
+                query.findObjectsInBackground { (objects, error) in
+                    var users = objects!
+                    for i in 0 ..< users.count {
+                        if users.count <= i{
+                            break
+                        }
+                        if users[i].value(forKey: "inDebate") as! Bool == true {
+                            users.remove(at: i)
+                        }
+                    }
+                    if error == nil && users.count > 1{
                         var currentUserIndex = 0
                         let setOfUsers = users as! [PFUser]
                         for i in 0 ..< setOfUsers.count {
@@ -138,15 +148,17 @@ class NewDebateViewController: UITableViewController, UIPickerViewDelegate, UIPi
                             defender = forArguer
                         }
                         
-                        PFUser.current()!.setObject(true, forKey: "inDebate")
-                        PFUser.current()!.saveInBackground()
+                        //PFUser.current()!.setObject(true, forKey: "inDebate")
+                        //PFUser.current()!.saveInBackground()
                         
                         self.debate = Debate(title: self.debateTopicField.text!, challenger: (PFUser.current()?.username)!, defender: defender, arguments: [String](), forArguer: forArguer, againstArguer: againstArguer, rebuttalRounds: Int(self.rebuttalRoundsField.text!)!, minutesPerArgument: self.minutesPerArgument, category: self.category, comments: [String]())
                         self.rawData = PFObject(className: "Debates")
                         NSKeyedArchiver.setClassName("debate_com.Debate", for: Debate.self)
+                        // fix by adding block to createDebate because 
                         self.rawData["Debate"] = NSKeyedArchiver.archivedData(withRootObject: self.debate)
-                        DebateClient.createDebate(self.debate, rawData: self.rawData)
-                        self.performSegue(withIdentifier: "newDebate", sender: self)
+                        DebateClient.createDebate(self.debate, rawData: self.rawData, finished: {
+                            self.performSegue(withIdentifier: "newDebate", sender: self)
+                        })
                     }
                 }
             }else{
@@ -156,7 +168,7 @@ class NewDebateViewController: UITableViewController, UIPickerViewDelegate, UIPi
                 var defenderUser: String = ""
                 var aArguer = ""
                 var fArguer = ""
-                query.findObjectsInBackground(block: { (objects: [PFObject]?, error: NSError?) -> Void in
+                query.findObjectsInBackground(block: { (objects, error) in
                     
                     if objects!.count > 0{
                         defenderUser = (objects![0] as! PFUser).username!
@@ -169,16 +181,17 @@ class NewDebateViewController: UITableViewController, UIPickerViewDelegate, UIPi
                             aArguer = PFUser.current()!.username!
                         }
                         
-                        PFUser.current()!.setObject(true, forKey: "inDebate")
-                        PFUser.current()!.saveInBackground()
+                        //PFUser.current()!.setObject(true, forKey: "inDebate")
+                        //PFUser.current()!.saveInBackground()
     
                         self.debate = Debate(title: self.debateTopicField.text!, challenger: PFUser.current()!.username!, defender: defenderUser, arguments: [String](), forArguer: fArguer, againstArguer: aArguer, rebuttalRounds: Int(self.rebuttalRoundsField.text!)!, minutesPerArgument: self.minutesPerArgument, category: self.category, comments: [String]())
                     
                         self.rawData = PFObject(className: "Debates")
                         NSKeyedArchiver.setClassName("debate_com.Debate", for: Debate.self)
                         self.rawData["Debate"] = NSKeyedArchiver.archivedData(withRootObject: self.debate)
-                        DebateClient.createDebate(self.debate, rawData: self.rawData)
-                        self.dismiss(animated: true, completion: nil)
+                        DebateClient.createDebate(self.debate, rawData: self.rawData, finished: { 
+                            self.dismiss(animated: true, completion: nil)
+                        })
                     }else{
                         let alert = UIAlertController(title: "User Not Found", message: "The opponent you searched for is either in a debate or does not exist.", preferredStyle: UIAlertControllerStyle.alert)
                         alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
@@ -190,9 +203,9 @@ class NewDebateViewController: UITableViewController, UIPickerViewDelegate, UIPi
             let alert = UIAlertController(title: "", message: "", preferredStyle: .alert)
             let OKAction = UIAlertAction(title: "OK", style: .default, handler: nil)
             alert.addAction(OKAction)
-            if Int(rebuttalRoundsField.text!) < 1{
+            if Int(rebuttalRoundsField.text!)! < 1{
                 alert.title = "You need to have more than 1 rebuttal round!"
-            }else if Int(rebuttalRoundsField.text!) > 5{
+            }else if Int(rebuttalRoundsField.text!)! > 5{
                 alert.title = "You need to have less than 5 rebuttal rounds!"
             }else if opponentUsernameField.text == PFUser.current()!.username!{
                 alert.title = "Don't be lonely, create a debate with someone other than yourself."
@@ -232,11 +245,11 @@ class NewDebateViewController: UITableViewController, UIPickerViewDelegate, UIPi
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
         if segue.identifier == "newDebate"{
-            let vc = segue.destinationViewController as! DebateManagerViewController
+            let vc = segue.destination as! DebateManagerViewController
             vc.debate = debate
             vc.rawData = rawData
         }

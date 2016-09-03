@@ -186,10 +186,10 @@ class DebatesViewController: UIViewController, UITableViewDataSource, UITableVie
         titleButton = UIButton(type: UIButtonType.roundedRect)
         titleButton.frame = CGRect(x: 0, y: 0, width: 90, height: 36)
         titleButton.layer.cornerRadius = 6
-        titleButton.layer.borderColor = UIColor.orange().cgColor
+        titleButton.layer.borderColor = UIColor.orange.cgColor
         titleButton.layer.borderWidth = 0.4
-        titleButton.setTitleColor(UIColor.white(), for: UIControlState())
-        titleButton.layer.backgroundColor = UIColor.orange().cgColor
+        titleButton.setTitleColor(UIColor.white, for: UIControlState())
+        titleButton.layer.backgroundColor = UIColor.orange.cgColor
         titleButton.setTitle("Create", for: UIControlState())
         titleButton.addTarget(self, action: #selector(self.create), for: .touchUpInside)
         self.navigationItem.titleView? = titleButton
@@ -205,7 +205,7 @@ class DebatesViewController: UIViewController, UITableViewDataSource, UITableVie
             self.view.addGestureRecognizer(self.revealViewController().panGestureRecognizer())
         }
         if !UIAccessibilityIsReduceTransparencyEnabled() {
-            self.view.backgroundColor = UIColor.clear()
+            self.view.backgroundColor = UIColor.clear
             let blurEffect = UIBlurEffect(style: UIBlurEffectStyle.dark)
             blurEffectView = UIVisualEffectView(effect: blurEffect)
             //always fill the view
@@ -215,8 +215,9 @@ class DebatesViewController: UIViewController, UITableViewDataSource, UITableVie
             self.view.addSubview(blurEffectView) //if you have more UIViews, use an insertSubview API to place it where needed
         }
         else {
-            self.view.backgroundColor = UIColor.black()
+            self.view.backgroundColor = UIColor.black
         }
+        
         //var debates = [Debate]()
         //let query = PFQuery(className: "Debates")
         //let privateQuery = PFQuery(className: "Private")
@@ -306,6 +307,7 @@ class DebatesViewController: UIViewController, UITableViewDataSource, UITableVie
         //ARSLineProgress
         self.reload()
         self.timer = Timer.scheduledTimer(timeInterval: 10, target: self, selector: #selector(self.reload), userInfo: nil, repeats: true)
+        
     }
     func reload(){
         var debates = [Debate]()
@@ -325,17 +327,19 @@ class DebatesViewController: UIViewController, UITableViewDataSource, UITableVie
             }
         }
          */
-        query.findObjectsInBackground { (data: [PFObject]?, error: NSError?) -> Void in
+        query.findObjectsInBackground { (data: [PFObject]?, error: Error?) in
+            
+            // change back to != nil
             if data != nil{
                 numOfNot = 0
                 self.inDebate = false
                 for i in data!{
-                    
-                    let data = i["Debate"] as! Data
+                    print(i.value(forKey: "Title"))
+                    let encoded = i["Debate"] as! Data
                     NSKeyedUnarchiver.setClass(Debate.self, forClassName: "debate_com.Debate")
-                    let debate = NSKeyedUnarchiver.unarchiveObject(with: data) as! Debate
+                    let debate = NSKeyedUnarchiver.unarchiveObject(with: encoded) as! Debate
                     debates.append(debate)
-                    
+                    print(debate.title)
                     if debate.forArguer != "" || debate.againstArguer != ""{
                     
                     let dateFormatter = DateFormatter()
@@ -391,11 +395,14 @@ class DebatesViewController: UIViewController, UITableViewDataSource, UITableVie
                 debatesMain = debates.reversed()
                 isLoading = true
                 currentUser.setObject(self.inDebate, forKey: "inDebate")
-                currentUser.saveInBackground(block: { (success: Bool, error: NSError?) -> Void in
+                
+                currentUser.saveInBackground(block: { (success, error) in
                     currentUser.fetchInBackground()
                     
                     self.tableView.reloadData()
+                    
                 })
+                //print(self.tableView.numberOfRows(inSection: 0))
                 }else{
                 print(error?.localizedDescription)
             }
@@ -463,7 +470,7 @@ class DebatesViewController: UIViewController, UITableViewDataSource, UITableVie
             let query = PFQuery(className: "Views")
             query.whereKey("debateObjectID", equalTo: rawDebates[(indexPath as NSIndexPath).row].objectId!)
             query.findObjectsInBackground(block: { (objects, error) -> Void in
-                if objects?.count > 0{
+                if (objects?.count)! > 0{
                     let viewers = objects?[0].object(forKey: "viewers") as? [String]
                     cell.data.text = "Views: \(viewers?.count != nil ? debate.viewers.count : 0) · Comments: \(debate.comments.count) · Votes: \(debate.forVotes + debate.againstVotes)"
                 }else{
@@ -481,7 +488,7 @@ class DebatesViewController: UIViewController, UITableViewDataSource, UITableVie
                 }
             }
         }
-        print(debate.category)
+        //print(debate.category)
         switch debate.category{
         case categoryArray[0]:
             cell.debateImage.image = #imageLiteral(resourceName: "economy")
@@ -521,14 +528,14 @@ class DebatesViewController: UIViewController, UITableViewDataSource, UITableVie
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    override func prepare(for segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "fromDebates"{
             // go to different vcs based on different actions
-            let vc = segue.destinationViewController as! DebateManagerViewController
+            let vc = segue.destination as! DebateManagerViewController
             vc.debate = selectedDebate
             vc.rawData = selectedRawData
         }else if segue.identifier == "pollSeg"{
-            let vc = segue.destinationViewController as! VoteViewController
+            let vc = segue.destination as! VoteViewController
             vc.debate = selectedDebate
             vc.rawData = selectedRawData
         }

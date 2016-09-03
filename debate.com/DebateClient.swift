@@ -24,11 +24,11 @@ class DebateClient{
             push.setQuery(query)
             push.setMessage(message)
             
-            push.sendInBackground { (success: Bool, error: NSError?) -> Void in
+            push.sendInBackground(block: { (success, error) in
                 if error == nil && success{
                     print("push notification sent to user \(username)!")
                 }
-            }
+            })
         }else{
             let userQuery = PFUser.query()!
             userQuery.whereKey("username", notEqualTo: PFUser.current()!.username!)
@@ -50,7 +50,7 @@ class DebateClient{
     static func retrieveDebates(){
         var debates = [Debate]()
         let query = PFQuery(className: "Debates")
-        query.findObjectsInBackground { (data: [PFObject]?, error: NSError?) -> Void in
+        query.findObjectsInBackground { (data: [PFObject]?, error: Error?) in
             if data != nil{
                 for i in data!{
                     let data = i["Debate"] as! Data
@@ -69,7 +69,7 @@ class DebateClient{
     static func convert(_ object: PFObject) -> Debate{
         return NSKeyedUnarchiver.unarchiveObject(with: object["Debate"] as! Data) as! Debate
     }
-    static func createDebate(_ debate: Debate, rawData: PFObject) -> PFObject{
+    static func createDebate(_ debate: Debate, rawData: PFObject, finished: @escaping () -> Void) -> PFObject{
         
         let object = rawData
         object.setObject(debate.title, forKey: "Title")
@@ -83,7 +83,8 @@ class DebateClient{
         object.setObject(debate.forArguer, forKey: forArguerKey)
         object.setObject(debate.againstArguer, forKey: againstArguerKey)
         
-        object.saveInBackground { (success: Bool, error: NSError?) -> Void in
+        object.saveInBackground { (success, error) in
+            
             if success && debate.challenger != ""{
                 print("success in creating a new debate")
                 
@@ -96,14 +97,15 @@ class DebateClient{
                         viewer.saveInBackground()
                     }
                 })
-                
+                finished()
             }
         }
         return object
     }
     static func postArgument(_ debateID: String, argument: String){
         let query = PFQuery(className: "Debates")
-            query.getObjectInBackground(withId: debateID, block: { (data: PFObject?, error: NSError?) -> Void in
+        
+            query.getObjectInBackground(withId: debateID, block: { (data, error) in
                 let debate = NSKeyedUnarchiver.unarchiveObject(with: data!["Debate"] as! Data) as! Debate
                 debate.arguments.append(argument)
                 data!["Debate"] = NSKeyedArchiver.archivedData(withRootObject: debate)
@@ -114,10 +116,11 @@ class DebateClient{
         let data = NSKeyedArchiver.archivedData(withRootObject: debate)
         var object: PFObject!
         let query = PFQuery(className: "Debates")
-        query.findObjectsInBackground { (objects: [PFObject]?, error: NSError?) -> Void in
+    
+        query.findObjectsInBackground { (objects, error) in
             object = objects![index]
             object["Debate"] = data
-            object.saveInBackground(block: { (success: Bool, error: NSError?) -> Void in
+            object.saveInBackground(block: { (success, error) in
                 if success{
                     print("success in updating")
                 }

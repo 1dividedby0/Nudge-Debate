@@ -29,8 +29,8 @@ class VoteViewController: UIViewController, UITableViewDelegate, UITableViewData
         tableView.estimatedRowHeight = 100
         tableView.rowHeight = UITableViewAutomaticDimension
         
-        commentButton.setTitleColor(UIColor.white(), for: UIControlState())
-        commentButton.backgroundColor = UIColor.cyan()
+        commentButton.setTitleColor(UIColor.white, for: UIControlState())
+        commentButton.backgroundColor = UIColor.cyan
         commentButton.layer.cornerRadius = 6
         print(debate)
         print(debate.forArguer)

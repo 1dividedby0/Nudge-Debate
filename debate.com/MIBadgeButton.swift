@@ -28,13 +28,13 @@ class MIBadgeButton: UIButton {
             }
         }
         
-        var badgeBackgroundColor = UIColor.red() {
+        var badgeBackgroundColor = UIColor.red {
             didSet {
                 badgeLabel.backgroundColor = badgeBackgroundColor
             }
         }
         
-        var badgeTextColor = UIColor.white() {
+        var badgeTextColor = UIColor.white {
             didSet {
                 badgeLabel.textColor = badgeTextColor
             }

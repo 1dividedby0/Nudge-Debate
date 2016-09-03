@@ -35,18 +35,18 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         return true
     }
     @IBAction func login(_ sender: AnyObject) {
-        PFUser.logInWithUsername(inBackground: loginField.text!, password: passwordField.text!) { (user: PFUser?, error: NSError?) -> Void in
+        PFUser.logInWithUsername(inBackground: loginField.text!, password: passwordField.text!) { (user, error) -> Void in
             if error != nil{
                 let alert = UIAlertView()
                 alert.title = "Error"
-                alert.message = error?.description
+                alert.message = error?.localizedDescription
                 alert.addButton(withTitle: "OK")
                 alert.show()
             }else{
                 currentUser = PFUser.current()!
                 let currentInstallation = PFInstallation.current()
-                currentInstallation["user"] = PFUser.current()!
-                currentInstallation.saveInBackground(block: { (success: Bool, error: NSError?) -> Void in
+                currentInstallation!["user"] = PFUser.current()!
+                currentInstallation!.saveInBackground(block: { (success, error) -> Void in
                     if success{
                         //if PFUser.current()?.object(forKey: "side") != nil{
                             self.performSegue(withIdentifier: "loggedIn", sender: self)

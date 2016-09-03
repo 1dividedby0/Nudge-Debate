@@ -62,7 +62,6 @@ class DebateManagerViewController: UIViewController, UITableViewDataSource, UITa
     override func viewDidLoad() {
         super.viewDidLoad()
         makeClocksHidden()
-        
         //debate.comments = []
         //rawData["Debate"] = NSKeyedArchiver.archivedDataWithRootObject(debate)
         //rawData.saveInBackground()
@@ -98,7 +97,7 @@ class DebateManagerViewController: UIViewController, UITableViewDataSource, UITa
     }
     func reload(){
             let query = PFQuery(className: "Debates")
-            query.getObjectInBackground(withId: rawData.objectId!) { (object: PFObject?, error: NSError?) -> Void in
+            query.getObjectInBackground(withId: rawData.objectId!) { (object, error) in
                 self.rawData = object!
                 self.debate = DebateClient.convert(object!)
                 if self.debate.defender != "o+"{
@@ -374,10 +373,11 @@ class DebateManagerViewController: UIViewController, UITableViewDataSource, UITa
             self.present(alert, animated: true, completion: nil)
         }
     }
-    override func shouldPerformSegue(withIdentifier identifier: String, sender: AnyObject?) -> Bool {
+
+    override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
         
         if identifier == "newArgument"{
-            rawData.fetchInBackground(block: { (object: PFObject?, error: NSError?) -> Void in
+            rawData.fetchInBackground(block: { (object, error) in
                 self.errorHandling()
             })
             if debate.arguments.count > 0 && debate.defender != ""{
@@ -416,17 +416,17 @@ class DebateManagerViewController: UIViewController, UITableViewDataSource, UITa
         self.present(alert, animated: true, completion: nil)
     }
     // MARK: - Navigation
-
+    
     // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
         if segue.identifier == "newArgument"{
-            let nav = segue.destinationViewController as! UINavigationController
+            let nav = segue.destination as! UINavigationController
             let vc = nav.topViewController as! AddArgumentViewController
             vc.rawDebate = rawData
         }else if segue.identifier == "voteSegue"{
-            let vc = segue.destinationViewController as! VoteViewController
+            let vc = segue.destination as! VoteViewController
             vc.rawData = rawData
             vc.debate = NSKeyedUnarchiver.unarchiveObject(with: rawData.object(forKey: "Debate") as! Data) as! Debate
         }

@@ -22,19 +22,30 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // ROLLOUT SETUP
         //Rollout.setup(withKey: "56bbf366cc626037300599b8")
         
+        
+        
         // FACEBOOK SETUP
         FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
         
         // PARSE SETUP
         Parse.enableLocalDatastore()
-        Parse.setApplicationId("QPhr2OMkucMziOB8pCbLc2Q977I96K9HkJHx5wsV",
-            clientKey: "iMq57OxwsNW1uy7ZXUr82MZ2nFEywIsHWyigg17T")
+        
+        let config = ParseClientConfiguration(block: {
+            (ParseMutableClientConfiguration) -> Void in
+            ParseMutableClientConfiguration.applicationId = "QPhr2OMkucMziOB8pCbLc2Q977I96K9HkJHx5wsV"
+            ParseMutableClientConfiguration.clientKey = "iMq57OxwsNW1uy7ZXUr82MZ2nFEywIsHWyigg17T"
+            ParseMutableClientConfiguration.server = "http://parseserver-cxapn-env.us-east-1.elasticbeanstalk.com/parse"
+        })
+        
+        Parse.initialize(with: config)
+        
         if application.applicationState != UIApplicationState.background{
             let preBackgroundPush = !application.responds(to: "backgroundRefreshStatus")
             let oldPushHandlerOnly = !self.responds(to: "application:didReceiveRemoteNotification:fetchCompletionHandler:")
-            var pushPayLoad = false
+            var pushPayLoad = true
+            
             if let options = launchOptions{
-                pushPayLoad = options[UIApplicationLaunchOptionsRemoteNotificationKey] != nil
+                //pushPayLoad = options[UIApplicationLaunchOptionsRemoteNotificationKey] != nil
             }
             if preBackgroundPush || oldPushHandlerOnly || pushPayLoad {
                 PFAnalytics.trackAppOpened(launchOptions: launchOptions)
@@ -60,8 +71,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
         let installation = PFInstallation.current()
-        installation.setDeviceTokenFrom(deviceToken)
-        installation.saveInBackground()
+        installation!.setDeviceTokenFrom(deviceToken)
+        installation!.saveInBackground()
     }
     func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: NSError) {
         if error.code == 3010{

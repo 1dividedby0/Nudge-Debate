@@ -67,7 +67,8 @@ class NotificationsTableViewController: UITableViewController {
     }
     func loadNotifications(){
         let query = PFQuery(className: "Debates")
-        query.findObjectsInBackground { (objects: [PFObject]?, error: NSError?) -> Void in
+    
+        query.findObjectsInBackground { (objects, error) in
             if objects != nil{
             var nots: [String] = []
             var raws: [PFObject] = []

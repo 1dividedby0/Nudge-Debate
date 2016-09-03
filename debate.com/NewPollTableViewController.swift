@@ -48,9 +48,10 @@ class NewPollTableViewController: UITableViewController, UIPickerViewDataSource,
         if privateNamesTextField.text!.characters.count > string.characters.count{
             string = privateNamesTextField.text!
             if string.contains(","){
-                let regex = try! RegularExpression(pattern: ",\\s*(\\S[^,]*)$", options: [])
+                let regex = try! NSRegularExpression(pattern: ",\\s*(\\S[^,]*)$", options: [])
                 if let match = regex.firstMatch(in: string, options: [], range: NSRange(location: 0, length: string.characters.count)){
-                    let result = string.substring(from: string.index(string.startIndex, offsetBy: match.range(at: 1).location))
+                    
+                    let result = string.substring(from: string.index(string.startIndex, offsetBy: match.rangeAt(1).location))
                     for i in users{
                         let length = result.characters.count
                         // starts searching from beginning from string instead of anywhere in string
@@ -121,8 +122,10 @@ class NewPollTableViewController: UITableViewController, UIPickerViewDataSource,
         }
         let object = PFObject(className: "Private")
         object.setObject(NSKeyedArchiver.archivedData(withRootObject: poll), forKey: "Debate")
-        DebateClient.createDebate(poll, rawData: object)
-        self.dismiss(animated: true, completion: nil)
+        DebateClient.createDebate(poll, rawData: object) { 
+            self.dismiss(animated: true, completion: nil)
+        }
+        
     }
     
     // MARK: - Table view data source

@@ -6,7 +6,7 @@ target 'Nudge Debate' do
   use_frameworks!
 
   # Pods for Nudge Debate
-  
+  pod 'Parse', '~> 1.14.2'
   #pod 'ARSLineProgress', '~> 1.0'
   target 'Nudge DebateTests' do
     inherit! :search_paths

@@ -4,6 +4,16 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
+		<key>Bolts.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>Parse.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>Pods-Nudge Debate.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -22,17 +32,27 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
+		<key>2C8AA1BAF35413BDB954A1DF93576ED1</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>7129FAB61478FA70223DADF4921468CD</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>72B60771A7088DCA4E906354E28DED38</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>E75F80F0EE6F50DD32266C781978CC93</key>
+		<key>EA5F67676D2B497B470000904C25B2EE</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>EA5F67676D2B497B470000904C25B2EE</key>
+		<key>F09565AB9A8D41E8C90DE4245CA73C87</key>
 		<dict>
 			<key>primary</key>
 			<true/>
