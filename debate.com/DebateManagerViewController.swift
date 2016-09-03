@@ -103,6 +103,7 @@ class DebateManagerViewController: UIViewController, UITableViewDataSource, UITa
                 if self.debate.defender != "o+"{
                     self.forLabel.text = "For: \(self.debate.forArguer)"
                     self.againstLabel.text = "Against: \(self.debate.againstArguer)"
+                    self.addArgumentButton.isHidden = false
                     if !self.debate.finished && self.clockTimer == nil{
                         self.clockTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: "updateTimer", userInfo: nil, repeats: true)
                     }
@@ -171,9 +172,7 @@ class DebateManagerViewController: UIViewController, UITableViewDataSource, UITa
         // get the time left not elapsed
         currentSeconds = debate.minutesPerArgument*60 - currentSeconds
         makeClocksHidden()
-        if navigationItem.title == nil{
-            navigationItem.title = debate.challenger
-        }else if navigationItem.title! == ""{
+        if navigationItem.title == nil || navigationItem.title! == ""{
             navigationItem.title = debate.challenger
         }
         
@@ -307,7 +306,12 @@ class DebateManagerViewController: UIViewController, UITableViewDataSource, UITa
         let cell = tableView.dequeueReusableCell(withIdentifier: "argumentCell") as! DebateManagerTableViewCell
         cell.userLabel.text = debate.arguments[(indexPath as NSIndexPath).row].components(separatedBy: ":")[0]
         if debate.arguments[(indexPath as NSIndexPath).row].components(separatedBy: ":").count > 1{
-            cell.argumentLabel.text = debate.arguments[(indexPath as NSIndexPath).row].components(separatedBy: ":")[1]
+            let components = debate.arguments[(indexPath as NSIndexPath).row].components(separatedBy: ":")
+            var text = ""
+            for i in 1 ..< components.count {
+                text += components[i]
+            }
+            cell.argumentLabel.text = text
             print(cell.argumentLabel.text)
         }else{
             cell.argumentLabel.text = ""

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11163.2" systemVersion="15G31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="Ffr-an-LG1">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11198.2" systemVersion="15G31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="Ffr-an-LG1">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11133"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
         <capability name="Alignment constraints to the first baseline" minToolsVersion="6.0"/>
         <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
@@ -243,7 +243,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="E9P-xG-Td3" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="486" y="1063"/>
+            <point key="canvasLocation" x="438" y="1311"/>
         </scene>
         <!--Sign Up View Controller-->
         <scene sceneID="tf6-ow-NNF">
@@ -492,7 +492,7 @@ Nudge Debate welcomes comments, questions, concerns, or suggestions. Please send
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="notification" id="bRH-Wn-cqK" customClass="NotificationTableViewCell" customModule="Nudge_Debate" customModuleProvider="target">
-                                <frame key="frameInset" minY="92" width="375" height="44"/>
+                                <rect key="frame" x="0.0" y="92" width="375" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" ambiguous="YES" tableViewCell="bRH-Wn-cqK" id="iQn-5Z-kuJ">
                                     <frame key="frameInset" width="375" height="43.5"/>
@@ -576,7 +576,7 @@ Nudge Debate welcomes comments, questions, concerns, or suggestions. Please send
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="DebateCell" rowHeight="128" id="mLE-dk-9vr" customClass="DebateCell" customModule="Nudge_Debate" customModuleProvider="target">
-                                        <frame key="frameInset" minY="28" width="375" height="128"/>
+                                        <rect key="frame" x="0.0" y="28" width="375" height="128"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="mLE-dk-9vr" id="LVv-tv-LXH">
                                             <frame key="frameInset" width="375" height="127.5"/>
@@ -811,7 +811,7 @@ Nudge Debate welcomes comments, questions, concerns, or suggestions. Please send
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="personCell" id="Lmu-0r-t6j" customClass="PersonTableViewCell" customModule="Nudge_Debate" customModuleProvider="target">
-                                        <frame key="frameInset" minY="92" width="375" height="80"/>
+                                        <rect key="frame" x="0.0" y="92" width="375" height="80"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Lmu-0r-t6j" id="LEf-ma-vEl">
                                             <frame key="frameInset" width="375" height="79.5"/>
@@ -1016,7 +1016,7 @@ Nudge Debate welcomes comments, questions, concerns, or suggestions. Please send
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="groupCell" id="tCO-5e-tXG" customClass="GroupTableViewCell" customModule="Nudge_Debate" customModuleProvider="target">
-                                <frame key="frameInset" minY="28" width="375" height="44"/>
+                                <rect key="frame" x="0.0" y="28" width="375" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="tCO-5e-tXG" id="tI6-2u-Ihz">
                                     <frame key="frameInset" width="375" height="43.5"/>
@@ -1080,7 +1080,7 @@ Nudge Debate welcomes comments, questions, concerns, or suggestions. Please send
                                 </constraints>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="argumentCell" rowHeight="115" id="8CH-a5-ye5" customClass="DebateManagerTableViewCell" customModule="Nudge_Debate" customModuleProvider="target">
-                                        <frame key="frameInset" minY="92" width="375" height="115"/>
+                                        <rect key="frame" x="0.0" y="92" width="375" height="115"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="8CH-a5-ye5" id="TK8-aR-HqE">
                                             <frame key="frameInset" width="375" height="114.5"/>

@@ -57,15 +57,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // automatically signs user in
         if PFUser.current() != nil{
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
-            if PFUser.current()!.object(forKey: "side") != nil{
+            //if PFUser.current()!.object(forKey: "side") != nil{
                 let initialViewController = storyboard.instantiateViewController(withIdentifier: "revealController") as! SWRevealViewController
                 self.window?.rootViewController = initialViewController
                 self.window?.makeKeyAndVisible()
-            }else{
-                let initialViewController = storyboard.instantiateViewController(withIdentifier: "chooseSide") as! ChooseSideViewController
-                self.window?.rootViewController = initialViewController
-                self.window?.makeKeyAndVisible()
-            }
+            //}else{
+                //let initialViewController = storyboard.instantiateViewController(withIdentifier: "chooseSide") as! ChooseSideViewController
+               // self.window?.rootViewController = initialViewController
+                //self.window?.makeKeyAndVisible()
+            //}
         }
         return true
     }
